@@ -1290,9 +1290,168 @@ class LFUCache {
 
 ## 单调栈
 
+```js
+// 模板
+let res = [] // 存放答案
+let stack = []
+for (let i = n - 1; i >= 0; i --) {
+  let top = stack[stack.length - 1]
+  while (stack.length && top <= nums[i]) {
+    stack.pop()
+  }
+  let restTop = stack[stack.length - 1]
+  res[i] = stack.length ? restTop : -1
+  stack.push(nums[i])
+}
+```
+
+### 739.每日温度
+
+[我是链接](https://leetcode-cn.com/problems/daily-temperatures/)
+
+```js
+var dailyTemperatures = function(temperatures) {
+  let res = []
+  let deque = []
+  for (let i = temperatures.length - 1; i >= 0; i --) {
+    while (deque.length && temperatures[deque[deque.length - 1]] <= temperatures[i]) {
+      deque.pop()
+    }
+    res[i] = deque.length ? deque[deque.length - 1] - i : 0
+    deque.push(i)
+  }
+  return res
+};
+```
+
+### 496.下一个更大的元素I 
+
+[我是链接](https://leetcode-cn.com/problems/next-greater-element-i/)
+
+```js
+var nextGreaterElement = function(nums1, nums2) {
+  const n = nums2.length
+  let s = []
+  let hash = {} //存放答案，作为 nums1 的映射
+  let res = []
+  for (let i = n - 1; i >= 0; i --) {
+    while (s.length && s[s.length - 1] <= nums2[i]) {
+      s.pop()
+    }
+    hash[nums2[i]] = s.length ? s[s.length - 1] : -1
+    s.push(nums2[i])
+  }
+  for (let i = 0; i < nums1.length; i ++) {
+    res[i] = hash[nums1[i]] || -1
+  }
+  return res
+};
+```
+
+### 503.下一个更大的元素II  
+
+[我是链接](https://leetcode-cn.com/problems/next-greater-element-ii/)
+
+```js
+// 这里数组是环形的，可以将原数组接在最后一个元素后面
+var nextGreaterElements = function(nums) {
+  let arr = [...nums, ...nums]
+  const n = arr.length
+  let res = []
+  let s = []
+  for (let i = n - 1; i >= 0; i --) {
+    while (s.length && s[s.length - 1] <= arr[i]) {
+      s.pop()
+    }
+    res[i] = s.length ? s[s.length - 1] : -1
+    s.push(arr[i])
+  }
+  return res.slice(0, n / 2)
+};
+```
+
+#### 处理环形数组 🌟🌟
+
+对索引进行求模，模拟长度加长的情况
+
+```js
+// let arr = [1, 2, 3]
+// const n = arr.length
+// for (let i = 2 * n - 1; i >= 0; i --) {
+// 	console.log(i%n, arr[i%n])
+// }
+var nextGreaterElements = function(nums) {
+  const n = nums.length
+  let res = []
+  let s = []
+  for (let i = 2 * n - 1; i >= 0; i --) {
+    while (s.length && s[s.length - 1] <= nums[i % n]) {
+      s.pop()
+    }
+    res[i % n] = s.length ? s[s.length - 1] : -1
+    s.push(nums[i % n])
+  }
+  return res
+};
+```
+
 ## 单调队列
 
-## 队列实现栈 + 栈实现队列
+### 239.滑动窗口最大的值 
 
-## 设计朋友圈时间线功能
+[我是链接](https://leetcode-cn.com/problems/sliding-window-maximum/)
+
+```js
+var maxSlidingWindow = function(nums, k) {
+  const n = nums.length
+  let dequeue = []
+  let res = []
+  for (let i = 0; i < n; i ++) {
+    // 合法性检测,超出 k个 窗口删除
+    if (i - dequeue[0] >= k) {
+      dequeue.shift()
+    }
+    while (dequeue.length && nums[dequeue[dequeue.length - 1]] <= nums[i]) {
+      dequeue.pop()
+    }
+    dequeue.push(i)
+    // k 为 3， 区间[0-2]开始算最大值
+    if (i >= k -1) {
+      res.push(nums[dequeue[0]])
+    }
+  }
+  return res
+};
+```
+
+## 最小栈
+
+### 155. 最小栈
+
+我是链接
+
+```js
+// 思路: 用两个栈，一个min栈用来存每次新增时当前栈最小值
+class MinStack {
+  constructor () {
+    this.stack = []
+    this.minStack = []
+  }
+  top () {
+    return this.stack[this.stack.length - 1]
+  }
+  push (x) {
+    this.stack.push(x)
+    const min = Math.min(...this.stack)
+    this.minStack.push(min)
+  }
+  pop () {
+    this.stack.pop()
+    this.minStack.pop()
+  }
+  getMin () {
+    return this.minStack[this.minStack.length - 1]
+  }
+}
+```
 
