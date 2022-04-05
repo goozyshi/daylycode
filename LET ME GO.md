@@ -1,5 +1,7 @@
 # LET ME GO
 
+> TODO: 双指针技巧秒杀七道数组题目: https://labuladong.gitee.io/algo/1/9/
+
 # 链表
 
 ## Day1: 单链表的六大解题思路
@@ -1428,7 +1430,7 @@ var maxSlidingWindow = function(nums, k) {
 
 ### 155. 最小栈
 
-我是链接
+[我是链接](https://leetcode-cn.com/problems/min-stack/)
 
 ```js
 // 思路: 用两个栈，一个min栈用来存每次新增时当前栈最小值
