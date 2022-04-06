@@ -1,7 +1,5 @@
 # LET ME GO
 
-> TODO: 双指针技巧秒杀七道数组题目: https://labuladong.gitee.io/algo/1/9/
-
 # 链表
 
 ## Day1: 单链表的六大解题思路
@@ -420,6 +418,158 @@ var isPalindrome = function(head) {
 };
 ```
 # 数组
+
+## 双指针秒杀7道数组题
+
+### 26.删除有序数组中的重复项
+
+[我是链接](https://leetcode-cn.com/problems/remove-duplicates-from-sorted-array/)
+
+设置快慢指针，比较快慢指针，**符合条件时慢指针才移动**
+
+```js
+var removeDuplicates = function(nums) {
+  let slow = 0
+  let fast = 1
+  while (fast < nums.length) {
+    if (nums[fast] != nums[slow]) {
+      nums[++slow] = nums[fast]
+    }
+    fast ++
+  }
+  // 返回长度 下标加 1
+  return slow + 1
+};
+```
+
+### 83.删除排序链表中的重复元素
+
+[我是链接](https://leetcode-cn.com/problems/remove-duplicates-from-sorted-list/)
+
+```js
+var deleteDuplicates = function(head) {
+  if (head === null) return head
+  let slow = head
+  let fast = head
+  while (fast !== null) {
+    if (fast.val != slow.val) {
+      slow.next = fast
+      slow = slow.next
+    }
+    fast = fast.next
+  }
+  slow.next = null
+  return head
+};
+```
+
+### 27.移除元素
+
+[我是链接](https://leetcode-cn.com/problems/remove-element/)
+
+```js
+var removeElement = function(nums, val) {
+  let slow = 0
+  let fast = 0
+  while (fast < nums.length) {
+    if (nums[fast] !== val) {
+      nums[slow ++] = nums[fast] // slow ++
+    }
+    fast ++
+  }
+  return slow
+};
+```
+
+### 283.移动零
+
+[我是链接](https://leetcode-cn.com/problems/move-zeroes/)
+
+```js
+var moveZeroes = function(nums) {
+  let slow = 0
+  let fast = 0
+  while (fast < nums.length) {
+    if (nums[fast] !== 0) {
+      nums[slow ++] = nums[fast]
+    }
+    fast ++
+  }
+  while (slow < nums.length) {
+    nums[slow ++] = 0
+  }
+  return nums
+};
+```
+
+### 167. 两数之和 II - 输入有序数组
+
+[我是链接](https://leetcode-cn.com/problems/two-sum-ii-input-array-is-sorted/)
+
+```js
+var twoSum = function(numbers, target) {
+  let l = 0
+  let r = numbers.length - 1
+  while (l < r) {
+    const sum = numbers[l] + numbers[r]
+    if (sum === target) {
+      return [l + 1, r + 1]
+    }
+    if (sum < target) {
+      l ++
+    } else {
+      r --
+    }
+  }
+  return [-1, -1]
+};
+```
+
+### 344. 反转字符串
+
+[我是链接](https://leetcode-cn.com/problems/reverse-string/)
+
+```js
+// 思路： 头尾指针，相遇之前交换值
+var reverseString = function(s) {
+  for (let i = 0, j = s.length - 1; i < j; i++, j--) {
+    [s[i], s[j]] = [s[j], s[i]]
+  }
+  return s
+};
+```
+### 5. 最长回文子串
+
+[我是链接](https://leetcode-cn.com/problems/longest-palindromic-substring/)
+
+> 找回文串的难点在于，回文串的的长度可能是奇数也可能是偶数，解决该问题的核心是**从中心向两端扩散的双指针技巧**
+
+```js
+var longestPalindrome = function(s) {
+  // 在 s 中寻找以 s[l] 和 s[r] 为中心的最长回文串
+  const palindrome = (s, l, r) => {
+    while (l >= 0 && r < s.length && s[l] === s[r]) {
+      l --
+      r ++
+    }
+    return s.substring(l + 1, r)
+  }
+  let res = ''
+  for (let i = 0; i < s.length; i ++) {
+    // 奇数： 以 s[i] 为中心的最长回文子串
+    const s1 = palindrome(s, i, i)
+    // 偶数：以 s[i] 和 s[i+1] 为中心的最长回文子串
+    const s2 = palindrome(s, i, i + 1)
+    // res = longest(res, s1, s2)
+    res = res.length > s1.length ? res : s1
+    res = res.length > s2.length ? res : s2
+  }
+  return res
+};
+```
+
+
+
 ## 前缀和数组
 
 ### 560. 和为 K 的子数组
@@ -604,8 +754,6 @@ var rotate = function(matrix) {
 ### 54.螺旋矩阵
 
 [我是链接](https://leetcode-cn.com/problems/spiral-matrix/)
-
-
 
 核心用右、下、左、上顺序遍历，并用 4 个变量圈定未遍历元素的边界
 
@@ -1033,88 +1181,6 @@ var shipWithinDays = function(weights, days) {
 };
 ```
 
-## 有序数组去重
-
-### 26.删除有序数组中的重复项
-
-[我是链接](https://leetcode-cn.com/problems/remove-duplicates-from-sorted-array/)
-
-设置快慢指针，比较快慢指针，**符合条件时慢指针才移动**
-
-```js
-var removeDuplicates = function(nums) {
-  let slow = 0
-  let fast = 1
-  while (fast < nums.length) {
-    if (nums[fast] != nums[slow]) {
-      nums[++slow] = nums[fast]
-    }
-    fast ++
-  }
-  // 返回长度 下标加 1
-  return slow + 1
-};
-```
-
-### 83.删除排序链表中的重复元素
-
-[我是链接](https://leetcode-cn.com/problems/remove-duplicates-from-sorted-list/)
-
-```js
-var deleteDuplicates = function(head) {
-  if (head === null) return head
-  let slow = head
-  let fast = head
-  while (fast !== null) {
-    if (fast.val != slow.val) {
-      slow.next = fast
-      slow = slow.next
-    }
-    fast = fast.next
-  }
-  slow.next = null
-  return head
-};
-```
-
-### 27.移除元素
-
-[我是链接](https://leetcode-cn.com/problems/remove-element/)
-
-```js
-var removeElement = function(nums, val) {
-  let slow = 0
-  let fast = 0
-  while (fast < nums.length) {
-    if (nums[fast] !== val) {
-      nums[slow ++] = nums[fast] // slow ++
-    }
-    fast ++
-  }
-  return slow
-};
-```
-
-### 283.移动零
-
-[我是链接](https://leetcode-cn.com/problems/move-zeroes/)
-
-```js
-var moveZeroes = function(nums) {
-  let slow = 0
-  let fast = 0
-  while (fast < nums.length) {
-    if (nums[fast] !== 0) {
-      nums[slow ++] = nums[fast]
-    }
-    fast ++
-  }
-  while (slow < nums.length) {
-    nums[slow ++] = 0
-  }
-  return nums
-};
-```
 ## twoSum 问题
 ### 1.两数之和
 

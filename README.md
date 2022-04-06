@@ -26,6 +26,18 @@
 
 ## 数组
 
+### 双指针秒杀7道数组题
+
+| LeetCode                                                     | 难度 |
+| :----------------------------------------------------------- | :--- |
+| [26. 删除有序数组中的重复项](https://leetcode-cn.com/problems/remove-duplicates-from-sorted-array/) | 🟢    |
+| [83. 删除排序链表中的重复元素](https://leetcode-cn.com/problems/remove-duplicates-from-sorted-list/) | 🟢    |
+| [27. 移除元素](https://leetcode-cn.com/problems/remove-element/) | 🟢    |
+| [283. 移动零](https://leetcode-cn.com/problems/move-zeroes/) | 🟢    |
+| [167. 两数之和 II - 输入有序数组](https://leetcode-cn.com/problems/two-sum-ii-input-array-is-sorted) | 🟢    |
+| [344. 反转字符串](https://leetcode-cn.com/problems/reverse-string/) | 🟢    |
+| [5. 最长回文子串](https://leetcode-cn.com/problems/longest-palindromic-substring) | 🟠    |
+
 ### 前缀和数组
 
 | LeetCode                                                     | 难度 |
@@ -44,7 +56,7 @@
 | LeetCode                                                     | 难度 |
 | :----------------------------------------------------------- | :--- |
 | [48. 旋转图像](https://leetcode-cn.com/problems/rotate-image/) | 🟠    |
-| [[54. 螺旋矩阵](https://leetcode-cn.com/problems/spiral-matrix/)](https://leetcode-cn.com/problems/next-greater-element-i) | 🟠    |
+| [54.螺旋矩阵](https://leetcode-cn.com/problems/next-greater-element-i) | 🟠    |
 | [59. 螺旋矩阵 II](https://leetcode-cn.com/problems/spiral-matrix-ii/) | 🟠    |
 
 ### 滑动窗口
@@ -60,10 +72,6 @@
 
 TODO
 
-### 有序数组去重
-
-TODO
-
 ### twoSum问题
 
 TODO
@@ -75,7 +83,7 @@ TODO
 | LeetCode                                                     | 难度 |
 | :----------------------------------------------------------- | :--- |
 | [146. LRU 缓存](https://leetcode-cn.com/problems/lru-cache/) | 🟠    |
-| [[460. LFU 缓存](https://leetcode-cn.com/problems/lfu-cache/)](https://leetcode-cn.com/problems/next-greater-element-i) | 🔴    |
+| [460. LFU 缓存](https://leetcode-cn.com/problems/next-greater-element-i) | 🔴    |
 
 ### 单调栈 & 单调队列
 

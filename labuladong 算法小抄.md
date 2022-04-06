@@ -2257,7 +2257,7 @@ var generateParenthesis = function(n) {
 
 # 面试高频
 
-### 5.最长回文子串
+### 5.最长回文子串✅
 
 [我是链接](https://leetcode-cn.com/problems/longest-palindromic-substring/)
 
@@ -2334,7 +2334,7 @@ var trap = function(height) {
 };
 ```
 
-### 26.删除有序数组中的重复项  
+### 26.删除有序数组中的重复项  ✅
 
 [我是链接](https://leetcode-cn.com/problems/remove-duplicates-from-sorted-array/)
 
@@ -2458,7 +2458,7 @@ var pancakeSort = function(arr) {
 };
 ```
 
-###  560.和为k的子数组
+###  560.和为k的子数组✅
 
 > 前缀和数组 方便用于区间
 
