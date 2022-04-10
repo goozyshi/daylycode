@@ -4,9 +4,7 @@
 
 ## Day1: 单链表的六大解题思路
 
-### 21. 合并两个有序链表
-
-[我是链接](https://leetcode-cn.com/problems/merge-two-sorted-lists/)
+### [21. 合并两个有序链表](https://leetcode-cn.com/problems/merge-two-sorted-lists/)
 
 生成一个哑节点`current`，比较`list1 `和 `list2` 指针，将`较小的值的指针`拼接在current后，current指针前进，最后`将剩余的指针全拼在current后`。
 
@@ -35,9 +33,7 @@ var mergeTwoLists = function(list1, list2) {
 };
 ```
 
-### 23.合并k个链表
-
-[我是链接](https://leetcode-cn.com/problems/merge-k-sorted-lists/)
+### [23.合并k个链表](https://leetcode-cn.com/problems/merge-k-sorted-lists/)
 
 #### 最小堆
 
@@ -122,9 +118,7 @@ var mergeKLists = function(lists) {
 
 
 
-### 19.删除链表的倒数第 N 个结点
-
-[我是链接](https://leetcode-cn.com/problems/remove-nth-node-from-end-of-list/)
+### [19.删除链表的倒数第 N 个结点](https://leetcode-cn.com/problems/remove-nth-node-from-end-of-list/)
 
 生成哑结点，让`快指针先走N步`，快指针到达时，慢指针到达倒数N + 1结点处，再删除
 
@@ -149,9 +143,7 @@ var removeNthFromEnd = function(head, n) {
 };
 ```
 
-### 876. 链表的中间结点
-
-[我是链接](https://leetcode-cn.com/problems/middle-of-the-linked-list/)
+### [876. 链表的中间结点](https://leetcode-cn.com/problems/middle-of-the-linked-list/)
 
 设置快慢指针，让快指针速度是慢指针的2倍，快指针到达时，慢指针刚好在链表中点。
 
@@ -166,9 +158,7 @@ var middleNode = function(head) {
 };
 ```
 
-### 环形链表II - 环位置
-
-[我是链接](https://leetcode-cn.com/problems/linked-list-cycle-ii/)
+### [142.环形链表II](https://leetcode-cn.com/problems/linked-list-cycle-ii/)
 
 设置快(2)慢(1)指针，若`快慢指针相遇，则为环形`
 
@@ -201,9 +191,7 @@ var detectCycle = function(head) {
 };
 ```
 
-### 160. 相交链表
-
-[我是链接](https://leetcode-cn.com/problems/intersection-of-two-linked-lists/)
+### [160. 相交链表](https://leetcode-cn.com/problems/intersection-of-two-linked-lists/)
 
 我们可以让 `p1` 遍历完链表 `A` 之后开始遍历链表 `B`，
 
@@ -228,9 +216,7 @@ var getIntersectionNode = function(headA, headB) {
 
 ## Day2: 递归反转链表
 
-### 206. 反转整个链表
-
-[我是链接](https://leetcode-cn.com/problems/reverse-linked-list/)
+### [206. 反转整个链表](https://leetcode-cn.com/problems/reverse-linked-list/)
 
 #### 递归
 
@@ -302,9 +288,7 @@ var reverseN = function(head, n) {
 
 
 
-### 92.反转链表的一部分节点
-
-[我是链接](https://leetcode-cn.com/problems/reverse-linked-list-ii/)
+### [92.反转链表的一部分节点](https://leetcode-cn.com/problems/reverse-linked-list-ii/)
 
 basecase：当 left 为 1 时，相当于**反转前N个节点**。
 
@@ -334,11 +318,7 @@ const revereN = (head, n) => {
 }
 ```
 
-
-
-### 25. K个一组反转链表
-
-[我是链接](https://leetcode-cn.com/problems/reverse-nodes-in-k-group/)
+### [25. K个一组反转链表](https://leetcode-cn.com/problems/reverse-nodes-in-k-group/)
 
 记录下每k个一组的起始节点和结束节点，不足 k 个的直接返回head。
 
@@ -377,9 +357,7 @@ const reverse = (start, end = null) => {
 }
 ```
 
-### 234.回文链表
-
-[我是链接](https://leetcode-cn.com/problems/palindrome-linked-list/)
+### [234.回文链表](https://leetcode-cn.com/problems/palindrome-linked-list/)
 
 找出中点，将中点后的节点反转，记录为右指针，比较左指针（起始）和右指针的节点值，不同则返回false
 
@@ -421,9 +399,7 @@ var isPalindrome = function(head) {
 
 ## 双指针秒杀7道数组题
 
-### 26.删除有序数组中的重复项
-
-[我是链接](https://leetcode-cn.com/problems/remove-duplicates-from-sorted-array/)
+### [26.删除有序数组中的重复项](https://leetcode-cn.com/problems/remove-duplicates-from-sorted-array/)
 
 设置快慢指针，比较快慢指针，**符合条件时慢指针才移动**
 
@@ -442,9 +418,7 @@ var removeDuplicates = function(nums) {
 };
 ```
 
-### 83.删除排序链表中的重复元素
-
-[我是链接](https://leetcode-cn.com/problems/remove-duplicates-from-sorted-list/)
+### [83.删除排序链表中的重复元素](https://leetcode-cn.com/problems/remove-duplicates-from-sorted-list/)
 
 ```js
 var deleteDuplicates = function(head) {
@@ -463,9 +437,7 @@ var deleteDuplicates = function(head) {
 };
 ```
 
-### 27.移除元素
-
-[我是链接](https://leetcode-cn.com/problems/remove-element/)
+### [27.移除元素](https://leetcode-cn.com/problems/remove-element/)
 
 ```js
 var removeElement = function(nums, val) {
@@ -481,9 +453,7 @@ var removeElement = function(nums, val) {
 };
 ```
 
-### 283.移动零
-
-[我是链接](https://leetcode-cn.com/problems/move-zeroes/)
+### [283.移动零](https://leetcode-cn.com/problems/move-zeroes/)
 
 ```js
 var moveZeroes = function(nums) {
@@ -502,9 +472,7 @@ var moveZeroes = function(nums) {
 };
 ```
 
-### 167. 两数之和 II - 输入有序数组
-
-[我是链接](https://leetcode-cn.com/problems/two-sum-ii-input-array-is-sorted/)
+### [167. 两数之和 II - 输入有序数组](https://leetcode-cn.com/problems/two-sum-ii-input-array-is-sorted/)
 
 ```js
 var twoSum = function(numbers, target) {
@@ -525,9 +493,7 @@ var twoSum = function(numbers, target) {
 };
 ```
 
-### 344. 反转字符串
-
-[我是链接](https://leetcode-cn.com/problems/reverse-string/)
+### [344. 反转字符串](https://leetcode-cn.com/problems/reverse-string/)
 
 ```js
 // 思路： 头尾指针，相遇之前交换值
@@ -538,9 +504,7 @@ var reverseString = function(s) {
   return s
 };
 ```
-### 5. 最长回文子串
-
-[我是链接](https://leetcode-cn.com/problems/longest-palindromic-substring/)
+### [5. 最长回文子串](https://leetcode-cn.com/problems/longest-palindromic-substring/)
 
 > 找回文串的难点在于，回文串的的长度可能是奇数也可能是偶数，解决该问题的核心是**从中心向两端扩散的双指针技巧**
 
@@ -572,9 +536,7 @@ var longestPalindrome = function(s) {
 
 ## 前缀和数组
 
-### 560. 和为 K 的子数组
-
-[我是链接](https://leetcode-cn.com/problems/subarray-sum-equals-k/)
+### [560. 和为 K 的子数组](https://leetcode-cn.com/problems/subarray-sum-equals-k/)
 
 > **前缀和主要适用的场景是原始数组不会被修改的情况下，频繁查询某个区间的累加和**。
 
@@ -669,9 +631,7 @@ diffArr.increment(0, 1, 2)
 diffArr.getRes()
 ```
 
-### 1109. 航班预订统计
-
-[我是链接](https://leetcode-cn.com/problems/corporate-flight-bookings/)
+### [1109. 航班预订统计](https://leetcode-cn.com/problems/corporate-flight-bookings/)
 
 相当于[1, 2]区间增加10航班, [2, 3]区间增加20航班, [2, 5]区间增加25航班
 
@@ -688,9 +648,7 @@ var corpFlightBookings = function(bookings, n) {
 };
 ```
 
-### 1094. 拼车
-
-[我是链接](https://leetcode-cn.com/problems/car-pooling/)
+### [1094. 拼车](https://leetcode-cn.com/problems/car-pooling/)
 
 算出所有区间内，车内所有乘客数，再比较是否超载即可
 
@@ -712,9 +670,7 @@ var carPooling = function(trips, capacity) {
 
 ## 旋转二维数组
 
-### 48.旋转图像
-
-[我是链接](https://leetcode-cn.com/problems/rotate-image/)
+### [48.旋转图像](https://leetcode-cn.com/problems/rotate-image/)
 
 顺时针反转90度：先沿对角线对称反转，再每行反转
 
@@ -751,9 +707,7 @@ var rotate = function(matrix) {
 
 ```
 
-### 54.螺旋矩阵
-
-[我是链接](https://leetcode-cn.com/problems/spiral-matrix/)
+### [54.螺旋矩阵](https://leetcode-cn.com/problems/spiral-matrix/)
 
 核心用右、下、左、上顺序遍历，并用 4 个变量圈定未遍历元素的边界
 
@@ -801,9 +755,7 @@ var rotate = function(matrix) {
 };
 ```
 
-### 59.螺旋矩阵II
-
-[我是链接](https://leetcode-cn.com/problems/spiral-matrix-ii/)
+### [59.螺旋矩阵II](https://leetcode-cn.com/problems/spiral-matrix-ii/)
 
 ```js
 var generateMatrix = function(n) {
@@ -853,9 +805,7 @@ var generateMatrix = function(n) {
 
 ## 滑动窗口
 
-### 76. 最小覆盖子串
-
-[我是链接](https://leetcode-cn.com/problems/minimum-window-substring/)
+### [76. 最小覆盖子串](https://leetcode-cn.com/problems/minimum-window-substring/)
 
 取`[left, right)`左闭右开区间作为窗口，
 
@@ -910,9 +860,7 @@ var minWindow = function(s, t) {
 };
 ```
 
-### 567. 字符串的排列
-
-[我是链接](https://leetcode-cn.com/problems/permutation-in-string/)
+### [567. 字符串的排列](https://leetcode-cn.com/problems/permutation-in-string/)
 
 ```js
 var checkInclusion = function(s1, s2) {
@@ -957,9 +905,7 @@ var checkInclusion = function(s1, s2) {
 };
 ```
 
-### 438. 找到字符串中所有字母异位词
-
-[我是链接](https://leetcode-cn.com/problems/find-all-anagrams-in-a-string/)
+### [438. 找到字符串中所有字母异位词](https://leetcode-cn.com/problems/find-all-anagrams-in-a-string/)
 
 ```js
 var findAnagrams = function(s, p) {
@@ -999,9 +945,7 @@ var findAnagrams = function(s, p) {
 };
 ```
 
-### 3. 无重复字符的最长子串
-
-[我是链接](https://leetcode-cn.com/problems/longest-substring-without-repeating-characters/)
+### [3. 无重复字符的最长子串](https://leetcode-cn.com/problems/longest-substring-without-repeating-characters/)
 
 ```js
 var lengthOfLongestSubstring = function(s) {
@@ -1097,9 +1041,7 @@ const rightBound = (nums, target) => {
 console.log(rightBound([1,2,2,2,2,3], 2)) // 4
 ```
 
-### 704.二分查找
-
-[我是链接](https://leetcode-cn.com/problems/binary-search/)
+### [704.二分查找](https://leetcode-cn.com/problems/binary-search/)
 
 ```js
 var search = function(nums, target) {
@@ -1107,11 +1049,7 @@ var search = function(nums, target) {
 };
 ```
 
-
-
-### 34. 在排序数组中查找元素的第一个和最后一个位置
-
-[我是链接](https://leetcode-cn.com/problems/find-first-and-last-position-of-element-in-sorted-array/)
+### [34. 在排序数组中查找元素的第一个和最后一个位置](https://leetcode-cn.com/problems/find-first-and-last-position-of-element-in-sorted-array/)
 
 ```js
 var searchRange = function(nums, target) {
@@ -1121,9 +1059,52 @@ var searchRange = function(nums, target) {
 };
 ```
 
-### 875.爱吃香蕉的珂珂<sup>0.3k</sup>
+### [69. x的平方根](https://leetcode-cn.com/problems/sqrtx/)
 
-[我是链接](https://leetcode-cn.com/problems/koko-eating-bananas/)
+> 题示是求平方根，实际是[0, x]区间内其平方最接近x的数。相当于**求二分法的右边界**
+
+```js
+var mySqrt = function (x) {
+  let [left, right] = [0, x]
+  while (left <= right) {
+    const mid = Math.floor((l + r) / 2) // 中间位置索引 x>>1 表示除以2并取整，缩小一下遍历的范围
+    if (mid * mid <= x) {
+      left = mid + 1
+    } else {
+      right = mid - 1
+    }
+  }
+  return right
+};
+```
+
+### [50. Pow(x, n)](https://leetcode-cn.com/problems/powx-n/) 
+
+>  x<sup>n</sup> = {
+>
+> ​	(x<sup>2</sup>)<sup>(n/2)</sup> // n为偶数
+>  						
+> ​		x * (x<sup>2</sup>)<sup>(n/2)</sup>// n为奇数
+>
+>  }
+
+```js
+var myPow = function(x, n) {
+  if (n === 0) return 1
+  // n 为负数
+  if  (n < 0) {
+    return 1 / myPow(x, -n)
+  }
+  // n 为奇数
+  if (n % 2) {
+    return x * myPow(x, n - 1)
+  }
+  // n 为偶数
+  return myPow(x * x, n / 2)
+};
+```
+
+### [875.爱吃香蕉的珂珂](https://leetcode-cn.com/problems/koko-eating-bananas/)
 
 ```js
 var minEatingSpeed = function(piles, h) {
@@ -1148,9 +1129,7 @@ var minEatingSpeed = function(piles, h) {
 };
 ```
 
-### 1011.在 D 天内送达包裹的能力
-
-[我是链接](https://leetcode-cn.com/problems/capacity-to-ship-packages-within-d-days)
+### [1011.在 D 天内送达包裹的能力](https://leetcode-cn.com/problems/capacity-to-ship-packages-within-d-days)
 
 ```js
 var shipWithinDays = function(weights, days) {
@@ -1182,9 +1161,7 @@ var shipWithinDays = function(weights, days) {
 ```
 
 ## twoSum 问题
-### 1.两数之和
-
-[我是链接](https://leetcode-cn.com/problems/two-sum/)
+### [1.两数之和](https://leetcode-cn.com/problems/two-sum/)
 
 - 有序： `前后指针`
 
@@ -1206,13 +1183,11 @@ var twoSum = function(nums, target) {
 };
 ```
 
-# 数据机构
+# 数据结构
 
 ## LRU缓存
 
-### 146.LRU缓存机制
-
-[我是链接](https://leetcode-cn.com/problems/lru-cache/)
+### [146.LRU缓存机制](https://leetcode-cn.com/problems/lru-cache/)
 
 LRU 的全称是` Least Recently Used`，**最近最少使用**缓存淘汰策略。
 
@@ -1282,9 +1257,7 @@ class LRUCache {
 }
 ```
 
-### 460. LFU 缓存
-
-[我是链接](https://leetcode-cn.com/problems/lfu-cache/)
+### [460. LFU 缓存](https://leetcode-cn.com/problems/lfu-cache/)
 
 
 维护 `KV` 表，`KF` 表，`FK` 表三个映射。
@@ -1373,9 +1346,7 @@ for (let i = n - 1; i >= 0; i --) {
 }
 ```
 
-### 739.每日温度
-
-[我是链接](https://leetcode-cn.com/problems/daily-temperatures/)
+### [739.每日温度](https://leetcode-cn.com/problems/daily-temperatures/)
 
 ```js
 var dailyTemperatures = function(temperatures) {
@@ -1392,9 +1363,7 @@ var dailyTemperatures = function(temperatures) {
 };
 ```
 
-### 496.下一个更大的元素I 
-
-[我是链接](https://leetcode-cn.com/problems/next-greater-element-i/)
+### [496.下一个更大的元素I](https://leetcode-cn.com/problems/next-greater-element-i/) 
 
 ```js
 var nextGreaterElement = function(nums1, nums2) {
@@ -1416,9 +1385,7 @@ var nextGreaterElement = function(nums1, nums2) {
 };
 ```
 
-### 503.下一个更大的元素II  
-
-[我是链接](https://leetcode-cn.com/problems/next-greater-element-ii/)
+### [503.下一个更大的元素II](https://leetcode-cn.com/problems/next-greater-element-ii/)  
 
 ```js
 // 这里数组是环形的，可以将原数组接在最后一个元素后面
@@ -1465,9 +1432,7 @@ var nextGreaterElements = function(nums) {
 
 ## 单调队列
 
-### 239.滑动窗口最大的值 
-
-[我是链接](https://leetcode-cn.com/problems/sliding-window-maximum/)
+### [239.滑动窗口最大的值](https://leetcode-cn.com/problems/sliding-window-maximum/) 
 
 ```js
 var maxSlidingWindow = function(nums, k) {
@@ -1494,9 +1459,7 @@ var maxSlidingWindow = function(nums, k) {
 
 ## 最小栈
 
-### 155. 最小栈
-
-[我是链接](https://leetcode-cn.com/problems/min-stack/)
+### [155. 最小栈](https://leetcode-cn.com/problems/min-stack/)
 
 ```js
 // 思路: 用两个栈，一个min栈用来存每次新增时当前栈最小值
@@ -1523,3 +1486,447 @@ class MinStack {
 }
 ```
 
+# 回溯法（DFS）
+
+## 子集、组合、排列
+
+**解决一个回溯问题，实际上就是一个决策树的遍历过程**
+
+### 元素无重不可复选
+
+>  元素无重不可复选，即 nums 中的元素都是唯一的，每个元素最多只能被使用一次
+
+```js
+/* 组合/子集问题回溯算法框架 */
+void backtrack(int[] nums, int start) {
+    // 回溯算法标准框架
+    for (int i = start; i < nums.length; i++) {
+        // 做选择
+        track.addLast(nums[i]);
+        // 注意参数
+        backtrack(nums, i + 1);
+        // 撤销选择
+        track.removeLast();
+    }
+}
+
+/* 排列问题回溯算法框架 */
+let res = []
+let used = [] // 记录是否已选择
+void backtrack(int[] nums) {
+    for (int i = 0; i < nums.length; i++) {
+        // 剪枝逻辑
+        if (used[i]) {
+            continue;
+        }
+        // 做选择
+        used[i] = true;
+        track.addLast(nums[i]);
+
+        backtrack(nums);
+        // 撤销选择
+        track.removeLast();
+        used[i] = false;
+    }
+}
+```
+
+#### [78. 子集](https://leetcode-cn.com/problems/subsets/)
+
+```js
+// 用一个 start 排除 start 索引之前的数字
+var subsets = function(nums) {
+  let res = []
+  const backTrack = (nums, track = [], startIndex = 0) => {
+    res.push(track)
+    for (let i = startIndex; i < nums.length; i ++) {
+      track.push(nums[i])
+      backTrack(nums, [...track], i + 1)
+      track.pop()
+    }
+  }
+  backTrack(nums, [], 0)
+  return res
+}
+```
+
+#### [77.组合](https://leetcode-cn.com/problems/combinations/)
+
+```js
+var combine = function(n, k) {
+  let res = []
+  const backTrack = (n, track = [], startIndex = 1) => {
+    if (track.length === k) {
+      res.push(track)
+    }
+    for (let i = startIndex; i <= n; i ++) {
+      track.push(i)
+      backTrack(n, [...track], i + 1)
+      track.pop()
+    }
+  }
+  backTrack(n, [], 1)
+  return res
+}
+```
+
+#### [46.全排列](https://leetcode-cn.com/problems/permutations/)
+
+```js
+var permute = function(nums) {
+  let res = []
+  let used = []
+  const backTrack = (nums, track = []) => {
+    if (track.length === nums.length) {
+      res.push(track)
+    }
+    for (let i = 0; i < nums.length; i ++) {
+      if (used[i]) {
+        continue
+      }
+      if (i > 0 && nums[i - 1] === nums[i] && used[i - 1]) {
+        continue
+      }
+      used[i] = true
+      track.push(nums[i])
+      backTrack(nums, [...track])
+      track.pop()
+      used[i] = false
+    }
+  }
+  backTrack(nums, [])
+  return res
+};
+```
+
+### 元素可重不可复选
+
+> **元素可重不可复选，即 `nums` 中的元素可以存在重复，每个元素最多只能被使用一次**，其关键在于排序和剪枝
+
+```js
+/* 组合/子集问题回溯算法框架 */
+Arrays.sort(nums); // 排序
+void backtrack(int[] nums, int start) {
+    // 回溯算法标准框架
+    for (int i = start; i < nums.length; i++) {
+        // 剪枝逻辑，跳过值相同的相邻树枝
+        if (i > start && nums[i] == nums[i - 1]) {
+            continue;
+        }
+        // 做选择
+        track.addLast(nums[i]);
+        // 注意参数
+        backtrack(nums, i + 1);
+        // 撤销选择
+        track.removeLast();
+    }
+}
+
+
+
+/* 排列问题回溯算法框架 */
+let used = []
+Arrays.sort(nums); // 排序
+void backtrack(int[] nums) {
+    for (int i = 0; i < nums.length; i++) {
+        // 剪枝逻辑
+        if (used[i]) {
+            continue;
+        }
+        // 剪枝逻辑，固定相同的元素在排列中的相对位置
+        if (i > 0 && nums[i] == nums[i - 1] && !used[i - 1]) {
+            continue;
+        }
+        // 做选择
+        used[i] = true;
+        track.addLast(nums[i]);
+
+        backtrack(nums);
+        // 撤销选择
+        track.removeLast();
+        used[i] = false;
+    }
+}
+```
+
+#### [47.全排列II](https://leetcode-cn.com/problems/permutations-ii/)
+
+```js
+var permuteUnique = function(nums) {
+  let res = []
+  let used = []
+  // 对 nums 进行了排序
+  nums.sort((a, b) => a - b)
+  const backTrack = (nums, track = []) => {
+    if (track.length === nums.length) {
+      res.push(track)
+    }
+    for (let i = 0; i < nums.length; i ++) {
+      if (used[i]) {
+        continue
+      }
+      // 剪枝
+      if (i > 0 && nums[i - 1] === nums[i] && used[i - 1]) {
+        continue
+      }
+      used[i] = true
+      track.push(nums[i])
+      backTrack(nums, [...track])
+      track.pop()
+      used[i] = false
+    }
+  }
+  backTrack(nums, [])
+  return res
+};
+```
+
+#### [90. 子集 II](https://leetcode-cn.com/problems/subsets-ii/)
+
+需要先进行排序，让相同的元素靠在一起，如果发现 `nums[i] == nums[i-1]`，则跳过
+
+```js
+var subsetsWithDup = function(nums) {
+  // 先排序，让相同的元素靠在一起
+  nums = nums.sort((a, b) => a - b)
+  let res = []
+  const backTrack = (nums, track = [], startIndex = 0) => {
+    res.push(track)
+    for (let i = startIndex; i < nums.length; i ++) {
+      // 剪枝逻辑，值相同的相邻树枝，只遍历第一条
+      if (i > startIndex && nums[i] === nums[i - 1]) {
+        continue
+      }
+      track.push(nums[i])
+      backTrack(nums, [...track], i + 1)
+      track.pop()
+    }
+  }
+  backTrack(nums, [], 0)
+  return res
+};
+```
+
+#### [组合总和 II](https://leetcode-cn.com/problems/combination-sum-ii/)
+
+```js
+var combinationSum2 = function(candidates, target) {
+  candidates = candidates.sort((a, b) => a - b)
+  let res = []
+  let trackSum = 0
+  const backTrack = (candidates, track = [], startIndex = 0) => {
+    // base case，超过目标和，直接结束
+    if (trackSum > target) {
+        return;
+    }
+    // 存入结果
+    if (trackSum === target) {
+      res.push(track)
+    }
+    for (let i = startIndex; i < candidates.length; i ++) {
+      if (i > startIndex && candidates[i] === candidates[i - 1]) {
+        continue
+      }
+      track.push(candidates[i])
+      trackSum += candidates[i]
+      backTrack(candidates, [...track], i + 1)
+      track.pop()
+      trackSum -= candidates[i]
+    }
+  }
+  backTrack(candidates, [], 0)
+  return res
+};
+```
+
+### 元素无重可复选
+
+> **形式三、元素无重可复选，即 `nums` 中的元素都是唯一的，每个元素可以被使用若干次**，只要删掉去重逻辑即可
+
+```js
+/* 组合/子集问题回溯算法框架 */
+void backtrack(int[] nums, int start) {
+    // 回溯算法标准框架
+    for (int i = start; i < nums.length; i++) {
+        // 做选择
+        track.addLast(nums[i]);
+        // 注意参数
+        backtrack(nums, i);
+        // 撤销选择
+        track.removeLast();
+    }
+}
+
+
+/* 排列问题回溯算法框架 */
+void backtrack(int[] nums) {
+    for (int i = 0; i < nums.length; i++) {
+        // 做选择
+        track.addLast(nums[i]);
+        backtrack(nums);
+        // 撤销选择
+        track.removeLast();
+    }
+}
+```
+
+#### [39. 组合总和](https://leetcode-cn.com/problems/combination-sum/)
+
+```js
+var combinationSum = function(candidates, target) {
+  let res = []
+  let trackSum = 0
+  const backTrack = (candidates, track = [], startIndex = 0) => {
+    if (trackSum === target) {
+      res.push(track)
+    }
+    if (trackSum > target) {
+      return
+    }
+    for (let i = startIndex; i < candidates.length; i ++) {
+      if (i > 0 && candidates[i - 1] === candidates[i]) {
+        continue
+      }
+      track.push(candidates[i])
+      trackSum += candidates[i]
+      backTrack(candidates, [...track], i)
+      track.pop()
+      trackSum -= candidates[i]
+    }
+  }
+  backTrack(candidates, [], 0)
+  return res
+};
+```
+
+## 回溯法最佳实践
+
+### [51.N 皇后](https://leetcode-cn.com/problems/n-queens/)
+
+```js
+/**
+ * 这里生成棋盘时不直接创建['....', '....']形式的棋盘是因为JS中不能直接对字符串的某位进行替换
+ * 当然也可以直接创建, board[row][col] = 'Q' 需要通过字符串的substring 和 replace方法实现 较为繁琐
+ */
+var solveNQueens = function(n) {
+  // 生成棋盘 n x n
+  const emptyBoard = new Array(n).fill(0).map(_ => Array(n).fill('.'))
+  // 是否能放置皇后
+  const isValid = (board, row, col) => {
+    for (let i = 0; i < n; i ++) {
+      if (board[i][col] === 'Q') return false
+    }
+    for (let i = row - 1, j = col + 1; i >= 0 && j < n; i --, j ++) {
+      if (board[i][j] === 'Q') return false
+    }
+    for (let i = row - 1, j = col - 1; i >= 0 && j >= 0; i --, j --) {
+      if (board[i][j] === 'Q') return false
+    }
+    return true
+  }
+  // 按行回溯
+  const backTrack = (board, row = 0) => {
+    // 遍历到最后一行，皇后已摆放完毕，棋盘以【字符串】形式存入结果
+    if (row === n) {
+      const validBoard = board.map(i => i.join(''))
+      res.push(validBoard)
+      return
+    }
+    // 回溯模板
+    for (let col = 0; col < n; col ++) {
+      if (isValid(board, row, col)) {
+        board[row][col] = 'Q'
+        backTrack(board, row + 1)
+        board[row][col] = '.'
+      }
+    }
+  }
+  let res = []
+  backTrack(emptyBoard, 0)
+  return res
+};
+```
+
+### [37. 解数独](https://leetcode-cn.com/problems/sudoku-solver/)
+
+```js
+var solveSudoku = function(board) {
+  const isValid = (board, row, col, n) => {
+    for (let i = 0; i < 9; i ++) {
+      const R = Math.floor(row / 3) * 3 + Math.floor(i / 3)
+      const C = Math.floor(col / 3) * 3 + Math.floor(i % 3)
+      // 行是否重复
+      if (board[row][i] === n) {
+        return false
+      }
+      // 列是否重复
+      if (board[i][col] === n) {
+        return false
+      }
+      // 判断 3 x 3 小块是否存在重复
+      if (board[R][C] === n) {
+          return false
+      }
+    }
+    return true
+  }
+  const backTrack = (board, row, col) => {
+    // 到列尾，换下一行
+    if (col === 9) {
+      return backTrack(board, row + 1, 0)
+    }
+    // 到达最后一行，返回结果
+    if (row === 9) {
+      return true
+    }
+    // 跳过预设数字
+    if (board[row][col] !== '.') {
+      return backTrack(board, row, col + 1)
+    }
+    // 回溯模板
+    for (let i = 1; i <= 9; i ++) {
+      const ch = i.toString()
+      if (isValid(board, row, col, ch)) {
+        board[row][col] = ch
+        if (backTrack(board, row, col + 1)) {
+          return true
+        }
+        board[row][col] = '.'
+      }
+    }
+    return false
+  }
+  if (backTrack(board, 0, 0)) {
+    return board
+  }
+};
+```
+
+### [22. 括号生成](https://leetcode-cn.com/problems/generate-parentheses/)
+
+```js
+var generateParenthesis = function(n) {
+  let res = []
+  const backTrack = (left = n, right = n, track = []) => {
+    // baseCase1: 合法的括号一定先用左括号
+    if (right < left) {
+      return 
+    }
+    // baseCase2: 合法的括号左右括号刚好一起用完
+    if (left < 0 || right < 0) {
+      return
+    }
+    if (left === 0 && right === 0) {
+      res.push(track.join(''))
+    }
+    for (let item of ['(', ')']) {
+      track.push(item)
+      item === '(' && backTrack(left - 1, right, [...track])
+      item === ')' && backTrack(left, right - 1, [...track])
+      track.pop()
+    }
+  }
+  backTrack(n, n, [])
+  return res
+};
+```

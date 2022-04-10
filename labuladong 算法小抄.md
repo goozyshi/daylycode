@@ -2078,7 +2078,7 @@ var permute = function(nums) {
 };
 ```
 
-## 78.  子集
+## 78. 子集
 
 [我是链接](https://leetcode-cn.com/problems/subsets/)
 
