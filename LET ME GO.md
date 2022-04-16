@@ -1,5 +1,3 @@
-# LET ME GO
-
 # 链表
 
 ## Day1: 单链表的六大解题思路
@@ -1930,3 +1928,237 @@ var generateParenthesis = function(n) {
   return res
 };
 ```
+
+# 二叉树
+
+## 纲领
+
+```js
+二叉树解题的思维模式分两类：
+
+1、是否可以通过遍历一遍二叉树得到答案？如果可以，用一个 traverse 函数配合外部变量来实现，这叫「遍历」的思维模式。
+
+2、是否可以定义一个递归函数，通过子问题（子树）的答案推导出原问题的答案？如果可以，写出这个递归函数的定义，并充分利用这个函数的返回值，这叫「分解问题」的思维模式。
+
+无论使用哪种思维模式，你都需要思考：
+
+如果单独抽出一个二叉树节点，它需要做什么事情？需要在什么时候（前/中/后序位置）做？其他的节点不用你操心，递归函数会帮你在所有节点上执行相同的操作。
+```
+
+举具体的例子，现在给你一棵二叉树，我问你两个简单的问题：
+
+1、如果把根节点看做第 1 层，如何打印出每一个节点所在的层数？
+
+2、如何打印出每个节点的左右子树各有多少节点？
+
+```js
+// 问题1二叉树遍历函数
+void traverse(TreeNode root, int level) {
+    if (root == null) {
+        return;
+    }
+    // 前序位置
+    printf("节点 %s 在第 %d 层", root, level);
+    traverse(root.left, level + 1);
+    traverse(root.right, level + 1);
+}
+
+// 这样调用
+traverse(root, 1);
+```
+
+```js
+// 定义：输入一棵二叉树，返回这棵二叉树的节点总数
+int count(TreeNode root) {
+    if (root == null) {
+        return 0;
+    }
+    int leftCount = count(root.left);
+    int rightCount = count(root.right);
+    // 后序位置
+    printf("节点 %s 的左子树有 %d 个节点，右子树有 %d 个节点",
+            root, leftCount, rightCount);
+
+    return leftCount + rightCount + 1;
+}
+```
+
+> 只有后序位置才能通过返回值获取子树的信息
+
+### [104. 二叉树的最大深度](https://leetcode-cn.com/problems/maximum-depth-of-binary-tree/)
+
+```js
+var maxDepth = function(root) {
+  // 当前节点的最大深度 🟰 其左右子树的最大深度 + 1（当前节点）
+  if (root === null) {
+    return 0
+  }
+  const left = maxDepth(root.left)
+  const right = maxDepth(root.right)
+  return Math.max(left, right) + 1
+};
+```
+
+### [144. 二叉树的前序遍历](https://leetcode-cn.com/problems/binary-tree-preorder-traversal/)
+
+```js
+var preorderTraversal = function(root) {
+  const res = []
+  const preOrder = (root) => {
+    if (root === null) return 
+    res.push(root.val)
+    preOrder(root.left)
+    preOrder(root.right)
+  }
+  preOrder(root)
+  return res
+};
+```
+
+### [543. 二叉树的直径](https://leetcode-cn.com/problems/diameter-of-binary-tree/)
+
+**每一条二叉树的「直径」长度，就是一个节点的左右子树的最大深度之和**
+
+```js
+var diameterOfBinaryTree = function(root) {
+  let res = 0
+  const maxDepth = root => {
+    if (root === null) {
+      return 0
+    }
+    const leftMax = maxDepth(root.left)
+    const rightMax = maxDepth(root.right)
+    res = Math.max(res, leftMax + rightMax)
+    return Math.max(leftMax, rightMax) + 1
+  }
+  maxDepth(root)
+  return res
+};
+```
+
+## 思路
+
+### [226. 翻转二叉树](https://leetcode-cn.com/problems/invert-binary-tree/)
+
+写一个 `traverse` 函数遍历每个节点，让每个节点的左右子节点颠倒过来
+
+```js
+var invertTree = function(root) {
+  const reverse = root => {
+    if (root === null) {
+      return null
+    }
+    const temp= root.left
+    root.left = root.right
+    root.right = temp
+    reverse(root.left)
+    reverse(root.right)
+  }
+  reverse(root)
+  return root
+};
+```
+
+「分解问题」的思路，核心在于你要给递归函数一个合适的定义，然后用函数的定义来解释你的代码；如果你的逻辑成功自恰，那么说明你这个算法是正确的。
+
+```js
+// 定义：将以 root 为根的这棵二叉树翻转，返回翻转后的二叉树的根节点
+var invertTree = function(root) {
+  if (root === null) {
+    return null
+  }
+  const left = invertTree(root.left)
+  const right = invertTree(root.right)
+  root.left = right
+  root.right = left
+  return root
+};
+```
+
+### [116. 填充每个节点的下一个右侧节点指针](https://leetcode-cn.com/problems/populating-next-right-pointers-in-each-node/)
+
+```js
+var connect = function(root) {
+  if (root === null) return root
+  const connectTwoNodes = (nodeL, nodeR) => {
+    if (nodeL === null || nodeR === null) {
+      return null
+    }
+    /**** 前序位置 ****/
+    // 将传入的两个节点穿起来
+    nodeL.next = nodeR
+   	// 连接相同父节点的两个子节点
+    connectTwoNodes(nodeL.left, nodeL.right)
+    connectTwoNodes(nodeR.left, nodeR.right)
+    // 连接跨越父节点的两个子节点
+    connectTwoNodes(nodeL.right, nodeR.left)
+  }
+  connectTwoNodes(root.left, root.right)
+  return root
+};
+```
+
+### [114. 二叉树展开为链表](https://leetcode-cn.com/problems/flatten-binary-tree-to-linked-list/)
+
+```js
+// 定义：将以 root 为根的树拉平为链表
+var flatten = function(root) {
+  if (root === null) {
+    return null
+  }
+  flatten(root.left)
+  flatten(root.right)
+  /* 后序位置 */
+  // 1、左右子树已经被拉平成一条链表
+  const left = root.left
+  const right = root.right
+  // 2、将左子树作为右子树
+  root.left = null
+  root.right = left
+  let p = root
+  // 3、将原先的右子树接到当前右子树的末端
+  while (p.right) {
+    p = p.right
+  }
+  p.right = right
+};
+```
+
+TODO: https://labuladong.github.io/algo/2/19/35/
+
+## 构造
+
+## 遍历
+
+## 基操
+
+## 特性
+
+## 计算完全二叉树的节点数
+
+#### [222. 完全二叉树的节点个数](https://leetcode-cn.com/problems/count-complete-tree-nodes/)
+
+```js
+var countNodes = function(root) {
+  // 计算左右子树高度
+  let tempL = root
+  let tempR = root
+  let leftHeight = 0
+  let rightHeight = 0
+  while (tempL) {
+    tempL = tempL.left
+    leftHeight ++
+  }
+  while (tempR) {
+    tempR = tempR.right
+    rightHeight ++
+  }
+  // 高度相同 返回 2^n - 1
+  if (leftHeight === rightHeight) {
+    return Math.pow(2, leftHeight) - 1
+  }
+  // 高度不同： 当前节点 + 左子树节点数 + 右子树节点数
+  return 1 + countNodes(root.left) + countNodes(root.right)
+};
+```
+
