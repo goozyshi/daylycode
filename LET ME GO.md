@@ -1181,6 +1181,58 @@ var twoSum = function(nums, target) {
 };
 ```
 
+# 排序
+
+### [912. 排序数组](https://leetcode-cn.com/problems/sort-an-array/) 🌟
+
+冒泡、选择、插入、快排、归并
+
+https://leetcode-cn.com/problems/sort-an-array/solution/5chong-chang-yong-pai-xu-suan-fa-by-jsyt/
+
+9种排序
+
+```js
+/**
+ * @param {number[]} nums
+ * @return {number[]}
+ */
+var sortArray = function(nums) {
+    return mergeSort(nums, 0, nums.length - 1)
+};
+
+function mergeSort(nums, left, right) {
+    if (left >= right) return nums;
+    let mid = (left + right) >> 1;
+    mergeSort(nums, left, mid)
+    mergeSort(nums, mid + 1, right)
+    return merge(nums, left, mid, right)
+}
+
+function merge(nums, left, mid, right) {
+    let ans = [];
+    let c = 0, i = left, j = mid + 1;
+    while (i <= mid && j <= right) {
+        if (nums[i] < nums[j]) {
+          ans[c++] = nums[i++];
+        } else {
+          ans[c++] = nums[j++]
+        }
+    }
+    while (i <= mid) {
+      ans[c++] = nums[i++];
+    }
+    while (j <= right) {
+      ans[c++] = nums[j++];
+    }
+    for (let i = 0; i < ans.length; i++) {
+      nums[i + left] = ans[i];
+    }
+    return nums;
+}
+```
+
+
+
 # 数据结构
 
 ## LRU缓存
@@ -2128,11 +2180,158 @@ TODO: https://labuladong.github.io/algo/2/19/35/
 
 ## 构造
 
+**二叉树的构造问题一般都是使用「分解问题」的思路：构造整棵树 = 根节点 + 构造左子树 + 构造右子树**。
+
+### [654. 最大二叉树](https://leetcode-cn.com/problems/maximum-binary-tree/)
+
+找到数组的最大值，然后递归的构造左右子树。
+
+```js
+var constructMaximumBinaryTree = function(nums) {
+  // 定义： 构造nums[lo...hi]区间内的树，返回根节点
+  const buildTree = (lo, hi) => {
+     // baseCase
+     if (lo > hi) {
+       return null
+     }
+     // 找出最大值作为根节点
+     let maxNum = -Infinity
+     let maxIndex = -1
+     for (let i = lo; i <= hi; i ++) {
+       if (nums[i] > maxNum) {
+         maxNum = nums[i]
+         maxIndex = i
+       }
+     }
+     let root = new TreeNode(maxNum)
+     // 左子树取最大值左侧，右子树取最大值右侧
+     root.left = buildTree(lo, maxIndex - 1)
+     root.right = buildTree(maxIndex + 1, hi)
+    return root
+  }
+  return buildTree(0, nums.length - 1)
+};
+```
+
+### [105. 从前序与中序遍历序列构造二叉树](https://leetcode-cn.com/problems/construct-binary-tree-from-preorder-and-inorder-traversal/)
+
+```js
+/**
+ * 核心： 定位根节点位置，划分左右子树，再递归
+ * 前序遍历：[中 | 左 | 右] , 中序遍历：[左 | 中 | 右]
+ * 用一个哈希表记录中序遍历数组的节点下标,前序遍历的第一个即是根节点
+ * 拿到中序遍历中根节点的下标为 mid, 记中序左部分长度为 leftLen = mid - inStart
+ * 前序遍历: [
+ * prestart |  preStart + 1 ... prestart + leftLen | prestart + leftLen + 1...*  preEnd
+ * ]
+ * 中序数组： [inStart...mid - inStart | mid |  mid + 1 ... inEnd]
+ */
+var buildTree = function(preorder, inorder) {
+  let inMap = {}
+  for (let i = 0; i < inorder.length; i ++) {
+    inMap[inorder[i]] = i
+  }
+  const buildTree = (preStart, preEnd, inStart, inEnd) => {
+    // baseCase
+    if (preStart > preEnd) {
+      return null
+    }
+    // 取前序数组第一个为根节点
+    const rootNum = preorder[preStart]
+    const root = new TreeNode(rootNum)
+    const inIndex = inMap[rootNum]
+    const leftSize = inIndex - inStart
+    root.left = buildTree(preStart + 1, preStart + leftSize, inStart, inIndex - 1)
+    root.right = buildTree(preStart + leftSize + 1, preEnd, inIndex + 1, inEnd)
+    return root
+  }
+  return buildTree(0, preorder.length - 1, 0, inorder.length - 1)
+};
+```
+
+### [106. 从中序与后序遍历序列构造二叉树](https://leetcode-cn.com/problems/construct-binary-tree-from-inorder-and-postorder-traversal/)
+
+```js
+var buildTree = function(inorder, postorder) {
+  let inMap = {}
+  for (let i = 0; i < inorder.length; i ++) {
+    inMap[inorder[i]] = i
+  }
+  const build = (postStart, postEnd, inStart, inEnd) => {
+    // baseCase
+    if (inStart > inEnd) {
+      return null
+    }
+    // 取后序数组最后一个为根节点
+    const rootNum = postorder[postEnd]
+    const root = new TreeNode(rootNum)
+    const inIndex = inMap[rootNum]
+    // 左子树的节点个数
+    const leftSize = inIndex - inStart
+    root.left = build(postStart, postStart + leftSize - 1, inStart, inIndex - 1)
+    root.right = build(postStart + leftSize, postEnd - 1, inIndex + 1, inEnd)
+    return root
+  }
+  return build(0, postorder.length - 1, 0, inorder.length - 1)
+};
+```
+
+## 二叉搜索树BST的特性
+
+### [230. 二叉搜索树中第K小的元素](https://leetcode-cn.com/problems/kth-smallest-element-in-a-bst/)
+
+二叉搜索树的中序遍历就是升序
+
+```js
+var kthSmallest = function(root, k) {
+	// 记录当前元素的排名
+  let rank = 0
+  // 记录结果
+  let res = 0
+  const traverse = root => {
+    if (root === null) return
+    traverse(root.left)
+		/* 中序遍历代码位置 */
+    rank ++
+    // 找到第 k 小的元素
+    if (rank === k) {
+      res = root.val
+      return 
+    }
+    traverse(root.right)
+  } 
+  traverse(root)
+  return res
+};
+```
+
+### [538. 把二叉搜索树转换为累加树](https://leetcode-cn.com/problems/convert-bst-to-greater-tree/)
+
+```js
+var convertBST = function(root) {
+  // BST中序遍历互换即是降序遍历，维护一个外部累加变量 sum，然后把 sum 赋值给 BST 中的每一个节点，就将 BST 转化成累加树
+  let sum = 0
+  const traverse = root => {
+    if (root === null) return 
+    traverse(root.right)
+    sum += root.val
+    root.val = sum
+    traverse(root.left)
+  }
+  traverse(root)
+  return root
+};
+```
+
+
+
 ## 遍历
+
+
 
 ## 基操
 
-## 特性
+
 
 ## 计算完全二叉树的节点数
 

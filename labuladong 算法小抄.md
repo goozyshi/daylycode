@@ -1304,7 +1304,7 @@ var maxSlidingWindow = function(nums, k) {
 
 # 树
 
-## 手把手二叉树
+## 手把手二叉树✅
 
 ### 226. 翻转二叉树
 
@@ -1428,6 +1428,8 @@ var buildTree = function(preorder, inorder) {
   return helper(0, preorder.length - 1, 0, inorder.length - 1)
 };
 ```
+
+
 
 ## 手把手二叉搜索树
 
