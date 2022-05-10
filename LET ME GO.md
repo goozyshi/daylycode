@@ -1981,9 +1981,9 @@ var generateParenthesis = function(n) {
 };
 ```
 
-# 二叉树
+# 树
 
-## 纲领
+## 二叉树的纲领
 
 ```js
 二叉树解题的思维模式分两类：
@@ -2088,7 +2088,7 @@ var diameterOfBinaryTree = function(root) {
 };
 ```
 
-## 思路
+## 二叉树的思路
 
 ### [226. 翻转二叉树](https://leetcode-cn.com/problems/invert-binary-tree/)
 
@@ -2178,7 +2178,7 @@ var flatten = function(root) {
 
 TODO: https://labuladong.github.io/algo/2/19/35/
 
-## 构造
+## 二叉树的构造
 
 **二叉树的构造问题一般都是使用「分解问题」的思路：构造整棵树 = 根节点 + 构造左子树 + 构造右子树**。
 
@@ -2323,13 +2323,220 @@ var convertBST = function(root) {
 };
 ```
 
+## 二叉搜索树BST的基本操作
+
+BST 的完整定义如下：
+
+1、BST 中任意一个节点的左子树所有节点的值都小于该节点的值，右子树所有节点的值都大于该节点的值。
+
+2、BST 中任意一个节点的左右子树都是 BST。
+
+有了 BST 的这种特性，就可以在二叉树中做类似二分搜索的操作，搜索一个元素的效率很高。
+
+### [100. 相同的树](https://leetcode-cn.com/problems/same-tree/)
+
+```js
+var isSameTree = function(p, q) {
+  if (p === null && q == null) {
+    return true
+  }
+  if (p === null || q === null) {
+    // 仅一个为null
+    return false
+  }
+  if (p.val !== q.val) {
+    return false
+  }
+  return isSameTree(p.left, q.left) && isSameTree(p.right, q.right)
+};
+```
+
+### [98. 验证二叉搜索树](https://leetcode-cn.com/problems/validate-binary-search-tree/)
+
+```js
+/**
+ * 根节点的值是所有其左子树的最大值，所有右子树的最小值
+ */
+var isValidBST = function(root) {
+  const isValid = (root, min, max) => {
+    if (root === null) {
+      return true
+    }
+    if (min && root.val <= min.val) {
+      return false
+    } 
+    if (max && root.val >= max.val) {
+      return false
+    }
+    return isValid(root.left, min, root) && isValid(root.right, root, max)
+  }
+  return isValid(root, null, null)
+};
+```
+
+### [700. 二叉搜索树中的搜索](https://leetcode-cn.com/problems/search-in-a-binary-search-tree/)
+
+```js
+var searchBST = function(root, val) {
+  if (root === null) return null
+  if (root.val < val) return searchBST(root.right, val)
+  if (root.val > val) return searchBST(root.left, val)
+  return root
+};
+```
+
+### [701. 二叉搜索树中的插入操作](https://leetcode-cn.com/problems/insert-into-a-binary-search-tree/)
+
+```js
+var insertIntoBST = function(root, val) {
+  // 当前节点为空，生成一个新节点
+  if (root === null) {
+    root = new TreeNode(val)
+  }
+  // 左右子节点分情况生成
+  if (root.val < val) {
+    root.right =  insertIntoBST(root.right, val)
+  }
+  if (root.val > val) {
+    root.left = insertIntoBST(root.left, val)
+  }
+  return root
+};
+```
+
+### [450. 删除二叉搜索树中的节点](https://leetcode-cn.com/problems/delete-node-in-a-bst/)
+
+```js
+var deleteNode = function(root, key) {
+  if (root === null) return null
+  // 获取最小节点
+  const getMinNode = node => {
+    while (node.left) {
+      node = node.left
+    }
+    return node
+  }
+  if (root.val === key) {
+    // 没有左右子树 直接删除返回剩余节点即可
+    if (!root.left) return root.right
+    if (!root.right) return root.left
+    // 拥有左右子树，找出左子树的最大值或者右子树的最小值替换被删除的节点
+    const minNode = getMinNode(root.right)
+    root.val = minNode.val
+    root.right = deleteNode(root.right, minNode.val)
+  }
+  if (root.val < key) {
+    root.right = deleteNode(root.right, key)
+  }
+  if (root.val > key) {
+    root.left = deleteNode(root.left, key)
+  }
+  return root
+};
+```
+
+## 二叉搜索树BST的构造
+
+### [96. 不同的二叉搜索树](https://leetcode-cn.com/problems/unique-binary-search-trees/)
+
+```js
+var numTrees = function(n) {
+  let memo = new Array(n + 1).fill(0).map(_ => Array(n + 1).fill(0))
+  // 计算[start, n]间的节点
+  const countNodes = (start, end) => {
+    if (start > end) return 1
+    if (memo[start][end]) {
+      return memo[start][end]
+    }
+    let res = 0
+    for (let i = start; i <= end; i ++) {
+      res += countNodes(start, i - 1) * countNodes(i + 1, end)
+    }
+    memo[start][end] = res
+    return res
+  }
+  return countNodes(1, n)
+};
+```
+
+### [95. 不同的二叉搜索树 II](https://leetcode-cn.com/problems/unique-binary-search-trees-ii/)
+
+```js
+var generateTrees = function(n) {
+  if (n === 0) return []
+  const build = (start, end) => {
+    let res = []
+    if (start > end) {
+      res.push(null)
+      return res
+    }
+    for (let i = start; i <= end; i ++) {
+      const leftTree = build(start, i - 1)
+      const rightTree = build(i + 1, end)
+      for (let left of leftTree) {
+        for (let right of rightTree) {
+          const root  = new TreeNode(i)
+          root.left = left
+          root.right = right
+          res.push(root)
+        }
+      }
+    }
+    return res
+  }
+  return build(1, n)
+};
+```
+
 
 
 ## 遍历
 
+## 路径和
 
+### [124. 二叉树中的最大路径和](https://leetcode.cn/problems/binary-tree-maximum-path-sum/)
 
-## 基操
+```js
+var maxPathSum = function(root) {
+  let res = -Infinity
+ const countSum = root => {
+  if (root === null) return 0
+  const left = Math.max(0, countSum(root.left))
+  const right = Math.max(0, countSum(root.right))
+  // 最大路径和 = 当前节点 + 左子树路径和 + 右子树和
+  res = Math.max(res, root.val + left + right)
+  // 路径走法： 当前节点 + 左右子树最大值
+  return Math.max(left, right) + root.val
+ }
+ countSum(root)
+ return res
+};
+```
+
+## 最近公共祖先 LCA 问题
+
+**如果一个节点能够在它的左右子树中分别找到`p`和`q`，则该节点为`LCA`节点**
+
+### [236. 二叉树的最近公共祖先](https://leetcode.cn/problems/lowest-common-ancestor-of-a-binary-tree/)
+
+```js
+var lowestCommonAncestor = function(root, p, q) {
+  if (root === null) {
+    return null
+  }
+  // 公共祖先是自己
+  if (root === p || root === q) {
+    return root
+  }
+  let left = lowestCommonAncestor(root.left, p, q)
+  let right = lowestCommonAncestor(root.right, p, q)
+  // 节点的左右子树同时存在，则该节点为公共祖先
+  if (left && right) {
+    return root
+  }
+  return left || right || null
+};
+```
 
 
 

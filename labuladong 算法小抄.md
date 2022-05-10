@@ -1433,7 +1433,7 @@ var buildTree = function(preorder, inorder) {
 
 ## 手把手二叉搜索树
 
-### 100.相同的树  
+### 100.相同的树  ✅
 
 [我是链接](https://leetcode-cn.com/problems/same-tree/)
 
