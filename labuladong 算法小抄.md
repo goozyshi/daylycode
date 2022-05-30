@@ -1431,7 +1431,7 @@ var buildTree = function(preorder, inorder) {
 
 
 
-## 手把手二叉搜索树
+## 手把手二叉搜索树 ✅
 
 ### 100.相同的树  ✅
 
@@ -1661,6 +1661,8 @@ var preorderTraversal = function(root) {
 };
 ```
 
+
+
 ### 94.二叉树的中序遍历 
 
 [我是链接](https://leetcode-cn.com/problems/binary-tree-inorder-traversal/)
@@ -1778,6 +1780,8 @@ var postorderTraversal = function(root) {
   return res
 };
 ```
+
+
 
 ### 102.二叉树的层序遍历  
 

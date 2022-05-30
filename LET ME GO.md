@@ -2051,22 +2051,6 @@ var maxDepth = function(root) {
 };
 ```
 
-### [144. 二叉树的前序遍历](https://leetcode-cn.com/problems/binary-tree-preorder-traversal/)
-
-```js
-var preorderTraversal = function(root) {
-  const res = []
-  const preOrder = (root) => {
-    if (root === null) return 
-    res.push(root.val)
-    preOrder(root.left)
-    preOrder(root.right)
-  }
-  preOrder(root)
-  return res
-};
-```
-
 ### [543. 二叉树的直径](https://leetcode-cn.com/problems/diameter-of-binary-tree/)
 
 **每一条二叉树的「直径」长度，就是一个节点的左右子树的最大深度之和**
@@ -2488,9 +2472,182 @@ var generateTrees = function(n) {
 };
 ```
 
-
-
 ## 遍历
+
+### [144.二叉树的前序遍历](https://leetcode-cn.com/problems/binary-tree-preorder-traversal/) 
+
+
+```javascript
+// 递归
+var preorderTraversal = function(root) {
+  let res = []
+  const pre = (root) => {
+    if (!root) {
+      return
+    }
+    res.push(root.val)
+    pre(root.left)
+    pre(root.right)
+  }
+  pre(root)
+  return res
+};
+```
+
+
+![](https://pic.leetcode-cn.com/1600934720-bMXWmu-%E4%BA%8C%E5%8F%89%E6%A0%91%E5%89%8D%E5%BA%8F%E9%81%8D%E5%8E%86%EF%BC%88%E8%BF%AD%E4%BB%A3%E6%B3%95%EF%BC%89.gif#id=XDMij&originalType=binary&status=done&style=none#id=Ise9K&originalType=binary&status=done&style=none)
+
+
+```javascript
+var preorderTraversal = function(root) {
+  // 前序： 中左右 => 入栈顺序：右左中
+  if (!root) {
+    return []
+  }
+  let stack = [root]
+  let res = []
+  while (stack.length) {
+    const node = stack.pop()
+    node.right && stack.push(node.right)
+    node.left && stack.push(node.left)
+    res.push(node.val)
+  }
+  return res
+};
+```
+
+### [145.二叉树的后序遍历](https://leetcode-cn.com/problems/binary-tree-postorder-traversal/) 
+
+
+```javascript
+// 递归
+var postorderTraversal = function(root) {
+  let res = []
+  const post = (root) => {
+    if (!root) {
+      return []
+    }
+    post(root.left)
+    post(root.right)
+    res.push(root.val)
+  }
+  post(root)
+  return res
+};
+```
+
+
+```javascript
+var postorderTraversal = function(root) {
+  // 后序遍历： 左右中
+  // 可以借鉴前序遍历再对结果进行反转： 中右左 => 左右中
+  // 需要注意的是前序遍历是：中左右不是中右左
+  if (root === null) return []
+  let stack = [root]
+  let res = []
+  while (stack.length) {
+    const node = stack.pop()
+    node.left && stack.push(node.left)
+    node.right && stack.push(node.right)
+    res.push(node.val)
+  }
+  for (let i = 0, j = res.length - 1; i <= j ; i ++, j --) {
+    [res[i], res[j]] = [res[j], res[i]]
+  }
+  return res
+};
+```
+
+### [94. 二叉树的中序遍历](https://leetcode.cn/problems/binary-tree-inorder-traversal/)
+
+```js
+// 递归
+var inorderTraversal = function(root) {
+  let res = []
+  const inorder = (root) => {
+    if (!root) {
+      return 
+    }
+    inorder(root.left)
+    res.push(root.val)
+    inorder(root.right)
+  }
+  inorder(root)
+  return res
+};
+```
+
+```js
+// 迭代
+var inorderTraversal = function(root) {
+  if (root === null) return []
+  let stack = []
+  let res  = []
+  // 左中右，先把左子树全进栈
+  while (root || stack.length) {
+    if (root) {
+      // 当前节点入栈，直到所有左子树全进栈
+      stack.push(root)
+      root = root.left
+    } else {
+      root = stack.pop()
+      res.push(root.val)
+      root = root.right
+    }
+  }
+  return res
+};
+```
+
+
+
+### 层序遍历
+
+#### [102. 二叉树的层序遍历](https://leetcode.cn/problems/binary-tree-level-order-traversal/)
+
+```js
+var levelOrder = function(root) {
+  if (root === null) return []
+  let res = []
+  let queue = [root]
+  while (queue.length) {
+    const n = queue.length
+    let arr = []
+    for (let i = 0; i < n; i ++) {
+      const node = queue.shift()
+      arr.push(node.val)
+      node.left && queue.push(node.left)
+      node.right && queue.push(node.right)
+    }
+    res.push(arr)
+  }
+  return res
+};
+```
+
+#### [111. 二叉树的最小深度](https://leetcode.cn/problems/minimum-depth-of-binary-tree/)
+
+```js
+var minDepth = function(root) {
+  // 层序遍历，第一个没有子树的节点即为最小深度
+  if (root === null) return 0
+  let queue = [root]
+  let res = 1
+  while (queue.length) {
+    const n = queue.length
+    for (let i = 0; i < n; i ++) {
+      const node = queue.shift()
+      if (!node.left && !node.right) {
+        return res
+      }
+      node.left && queue.push(node.left)
+      node.right && queue.push(node.right)
+    }
+    res ++
+  }
+  return res
+};
+```
 
 ## 路径和
 
