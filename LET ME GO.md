@@ -1183,7 +1183,7 @@ var twoSum = function(nums, target) {
 
 # 排序
 
-### [912. 排序数组](https://leetcode-cn.com/problems/sort-an-array/) 🌟
+> [912. 排序数组https://leetcode.cn/problems/sort-an-array/](https://leetcode-cn.com/problems/sort-an-array/) 
 
 冒泡、选择、插入、快排、归并
 
@@ -1191,11 +1191,130 @@ https://leetcode-cn.com/problems/sort-an-array/solution/5chong-chang-yong-pai-xu
 
 9种排序
 
+## 时间复杂度O(n²)的排序算法
+
+### 冒泡排序,空间O(1)
+
 ```js
-/**
- * @param {number[]} nums
- * @return {number[]}
- */
+var sortArray = function(nums) {
+  // 冒泡排序
+  // 一边比较一边向后两两交换，将最大值冒泡到最后一位
+  for (let i = 0; i < nums.length; i++) {
+    for (let j = i + 1; j < nums.length; j++){
+      if (nums[i] > nums[j]) {
+        let temp = nums[i]
+        nums[i] = nums[j];
+        nums[j] = temp
+      }
+    }
+  }
+  return nums
+};
+```
+
+### 选择排序,空间O(1)
+
+```js
+var sortArray = function(nums) {
+  // 选择排序
+  // 找出未排序部分的最小值，交换到未排序部分的第一个
+  for (let i = 0; i < nums.length; i++) {
+    let minIndex = i
+    // [i+1, ...] 未排序部分
+    for (let j = i + 1; j < nums.length; j++){
+      // 找到最小值
+      if (nums[minIndex] > nums[j]) {
+        minIndex = j
+      }
+    }
+    // 交换
+    if (i !== minIndex) {
+      [nums[i], nums[minIndex]] = [nums[minIndex], nums[i]]
+    }
+  }
+  return nums
+};
+```
+
+### 插入排序,空间O(1)
+
+```js
+var sortArray = function (nums) {
+  // 插入排序
+  // 假设位置i之前是已经排序好的数组
+  // 在已排序好的数组中将大于当前位置i的全部后移，将当前元素插入
+  for (let i = 1; i < nums.length; i++) {
+    let preIndex = i - 1;
+    const current = nums[i];
+    while (preIndex >= 0 && nums[preIndex] > current) {
+      nums[preIndex + 1] = nums[preIndex];
+      preIndex = preIndex - 1;
+    }
+    nums[preIndex + 1] = current;
+  }
+  return nums;
+};
+```
+
+
+
+## 时间复杂度O(n²)到时间复杂度O(nlogn)间的排序算法
+
+### 希尔排序
+
+> h=3*h+1 时，希尔排序平均时间复杂度最优
+>
+> 需要注意的是，js除法需要调用Math.floor获取商
+
+```js
+var sortArray = function (nums) {
+  // 希尔排序
+  // 插入排序是将数组分割成1个已经排序的数组，希尔排序则是切割成h间隔的数组
+  let h = 1;
+  while (h < Math.floor(nums.length / 3)) {
+    h = 3 * h + 1;
+  }
+  while (h > 0) {
+    for (let i = h; i < nums.length; i++) {
+      let preIndex = i - h;
+      const current = nums[i];
+      while (preIndex >= 0 && nums[preIndex] > current) {
+        nums[preIndex + h] = nums[preIndex];
+        preIndex = preIndex - h;
+      }
+      nums[preIndex + h] = current;
+    }
+    h = Math.floor(h / 3);
+  }
+  return nums;
+};
+```
+
+## 时间复杂度O(nlogn)的排序算法
+
+### 快速排序
+
+```js
+var sortArray = function(nums) {
+    if (nums.length <= 1) { return nums; }
+    var pivotIndex = Math.floor(nums.length / 2);
+    var pivot = nums.splice(pivotIndex, 1)[0]; // 基准元素
+    var left = [];
+    var right = [];
+    for (var i = 0; i < nums.length; i++){
+        if (nums[i] < pivot) {
+            left.push(nums[i]);
+        } else {
+            right.push(nums[i]);
+        }
+    }
+    return sortArray(left).concat([pivot], sortArray(right));
+};
+```
+
+### 归并排序
+
+```js
 var sortArray = function(nums) {
     return mergeSort(nums, 0, nums.length - 1)
 };
@@ -1213,19 +1332,19 @@ function merge(nums, left, mid, right) {
     let c = 0, i = left, j = mid + 1;
     while (i <= mid && j <= right) {
         if (nums[i] < nums[j]) {
-          ans[c++] = nums[i++];
+            ans[c++] = nums[i++];
         } else {
-          ans[c++] = nums[j++]
+            ans[c++] = nums[j++]
         }
     }
     while (i <= mid) {
-      ans[c++] = nums[i++];
+        ans[c++] = nums[i++];
     }
     while (j <= right) {
-      ans[c++] = nums[j++];
+        ans[c++] = nums[j++];
     }
     for (let i = 0; i < ans.length; i++) {
-      nums[i + left] = ans[i];
+        nums[i + left] = ans[i];
     }
     return nums;
 }
