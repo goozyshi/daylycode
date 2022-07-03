@@ -2844,3 +2844,105 @@ var countNodes = function(root) {
 };
 ```
 
+# 动态规划
+
+## 子序列问题
+
+### [300. 最长递增子序列](https://leetcode.cn/problems/longest-increasing-subsequence/)
+
+```js
+/**
+ * dp(i)表示：以 nums[i] 结尾的最长递增子序列长度
+ * nums[i] > nums[j]：dp(i) = max(1 + dp(j), dp(i))
+ */
+var lengthOfLIS = function(nums) {
+  const n = nums.length
+  let dp = new Array(n).fill(1)
+  let res = 1
+  for (let i = 0; i < n; i++) {
+    for (let j = 0; j < i; j++) {
+      if (nums[i] > nums[j]) {
+        dp[i] = Math.max(1 + dp[j], dp[i])
+        res = Math.max(res, dp[i])
+      }
+    }
+  }
+  return res
+};
+```
+
+### [53. 最大子数组和](https://leetcode.cn/problems/maximum-subarray/)
+
+```js
+/**
+ * dp(i)表示：以 nums[i] 结尾的最大子数组和
+ * dp(i) = max(nums(i), dp(i - 1) + nums(i))
+ */
+var maxSubArray = function(nums) {
+  let dp = [nums[0]]
+  let res = nums[0]
+  for (let i = 1; i < nums.length; i++) {
+    // 要么自身，要么与前面的子数组合并
+    dp[i] = Math.max(nums[i], dp[i-1] + nums[i])
+    res = Math.max(res, dp[i])
+  }
+  return res
+};
+```
+
+### [1143. 最长公共子序列](https://leetcode.cn/problems/longest-common-subsequence/)
+
+```js
+/**
+ * base_case: dp[...][0]= dp[0][...] = 0， 任意一个子串为空串，lcs 为 0
+ * dp[i][j] 表示串s1[...i-1] 和 s2[...j-1]的最长公共子序列
+ * i 从 1 开始，串的下表要取 i - 1
+ * s1[i-1] === s2[j-1]: dp[i][j] = dp[i-1][j-1] + 1，当前字符为lcs中的一个
+ * s1[i-1] !== s2[j-1]:dp[i][j] = max(dp[i-1][j], dp[i][j-1])
+ */
+var longestCommonSubsequence = function(text1, text2) {
+  const m = text1.length
+  const n = text2.length
+  let dp = new Array(m + 1)
+  for (let i = 0; i < m + 1; i++) {
+    dp[i] = new Array(n + 1).fill(0)
+  }
+  for (let i = 1; i < m + 1; i ++) {
+    for (let j = 1; j < n + 1; j ++) {
+      if (text1[i - 1] === text2[j - 1]) {
+        dp[i][j] = dp[i - 1][j - 1] + 1
+      } else {
+        dp[i][j] = Math.max(dp[i - 1][j], dp[i][j - 1])
+      }
+    }
+  }
+  return dp[m][n]
+};
+```
+
+### [516. 最长回文子序列](https://leetcode.cn/problems/longest-palindromic-subsequence/)
+
+```js
+/**
+ * base_case: i === j 时 dp[i][j] = 1
+ * dp[i][j]表示s[i...j] 的最长回文子序列
+ * s[i] === s[j]时 dp[i][j] = dp[i+1][j-1] + 2,头尾2个字符算上啊
+ * dp[i][j] = max(dp[i+1][j], dp[i][j-1])
+ */
+var longestPalindromeSubseq = function(s) {
+  const n = s.length
+  let dp = new Array(n).fill(0).map(() => Array(n).fill(0))
+  for (let i = n - 1; i >= 0; i --) {
+    dp[i][i] = 1
+    for (let j = i + 1; j < n; j ++) {
+      if (s[i] === s[j]) {
+        dp[i][j] = dp[i + 1][j - 1] + 2
+      } else {
+        dp[i][j] = Math.max(dp[i + 1][j], dp[i][j - 1])
+      }
+    }
+  }
+  return dp[0][n - 1]
+};
+```
+
