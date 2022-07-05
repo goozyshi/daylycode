@@ -365,7 +365,7 @@ var lengthOfLongestSubstring = function(s) {
 # 动态规划
 
 
-## 子序列问题
+## 子序列问题 ✅
 
 
 ### 300. 最长递增子序列 
@@ -623,26 +623,28 @@ var maxA = function(n) {
 
 ```js
 const knapsack = (N, W, wt, val) => {
-  // base_case: 二维dp 为 0 
-  // dp[i][w] 表示： 前 i 个物品放入 w 容量的背包 最大价值为 dp[i][w]
-  // 对于第 i 个物品，可以选择装包或者不装包
-  // 1. 若第 i 物品 超过剩余背包容量，一定不能装包： dp[i][w] = dp[i - 1][w]
-  // 2. 第 i 物品 可以放入包内，此时可以选择装包 ｜ 不装包：  dp[i][w] = max(dp[i - 1][w], dp[i - 1][w - wt[i - 1]] + val[i - 1])
-  let dp = new Array(N+1).fill(0).map(() => new Array(W + 1).fill(0))
-  for (let i = 1; i < N + 1; i++) {
-    for (let w = 1; w < W + 1; w++) {
-      if (w - wt[i - 1] < 0) {
-        dp[i][w] = dp[i - 1][w]
-      } else {
-        dp[i][w] = Math.max(dp[i - 1][w], dp[i - 1][w - wt[i - 1]] + val[i - 1])
-      }
-    }
-  }
-  return dp[N][W]
+    // base_case: 二维dp 为 0 
+    // dp[i][w] 表示： 前 i 个物品放入 w 容量的背包 最大价值为 dp[i][w]
+    // 对于第 i 个物品，可以选择装包或者不装包
+    // 1. 若第 i 物品 超过剩余背包容量，一定不能装包： dp[i][w] = dp[i - 1][w]
+    // 2. 第 i 物品 可以放入包内，此时可以选择装包 ｜ 不装包 dp[i][w] = max(dp[i - 1][w], dp[i - 1][w - wt[i - 1]] + val[i - 1])
+		// 2.1 装包： dp[i][w] = dp[i - 1][w - wt[i - 1]] + val[i - 1] // 未装i物品的价值 + i物品价值
+	const dp = new Array(N + 1).fill(0).map(() => Array(W + 1).fill(0))
+	for (let i = 1; i < N + 1; i ++) {
+		for (let w = 1; w < W + 1; w ++) {
+			if (wt[i - 1] > w) {
+				dp[i][w] = dp[i-1][w]
+			} else  {
+				dp[i][w] = Math.max(dp[i - 1][w], dp[i - 1][w - wt[i - 1]] + val[i - 1])
+			}
+		}
+	}
+	return dp[N][W]
 }
-
 knapsack(5, 10, [1,2,3,4,5], [5,4,3,2,1]) // 14
 ```
+
+
 
 ### 416.分割等和子集 
 
@@ -761,7 +763,7 @@ var coinChange = function(coins, amount) {
  * base_case: dp[i][0] = 1, dp[0][w] = 0
  * choices:
  * 1. 金额 < 硬币面值: w < coin => dp[i][w] = dp[i - 1][w]
- * 2. 金额 >= 硬币面值： dp[i][w] = dp[i - 1][w] + dp[i][w - coions[i - 1]]
+ * 2. 金额 >= 硬币面值： dp[i][w] = dp[i - 1][w] + dp[i][w - coions[i - 1]] // i 不变是因为可以重复选
  */
 var change = function(amount, coins) {
   const n = coins.length
@@ -775,7 +777,7 @@ var change = function(amount, coins) {
       if (w < coins[i - 1]) {
         dp[i][w] = dp[i - 1][w]
       } else {
-        dp[i][w] = dp[i - 1][w] + dp[i][w - coins[i - 1]]
+        dp[i][w] = dp[i - 1][w] + dp[i][w - coins[i - 1]] // i 不变是因为可以重复选
       }
     }
   }
@@ -846,30 +848,26 @@ var rob = function(nums) {
 
 ```js
 var rob = function(root) {
-   // root 是对象的话， 采用{}不能作键值
-  let memo = new Map() // 用哈希表存储树的计算值，避免重复计算
-  const myRob = root => {
+  /**
+  /* 返回一个大小为 2 的数组 [rob, no_rob]
+   * rob 表示抢 root 的话，得到的最大钱数
+   * no_rob 表示不抢 root 的话，得到的最大钱数
+   */
+  const dp = root => {
     if (root === null) {
-      return 0
+      return [0, 0]
     }
-    if (memo.get(root)) {
-      return memo.get(root)
-    }
-    // 1. 根节点 加 左右子树的子树
-    let hasRoot = root.val
-    if (root.left) {
-      hasRoot += myRob(root.left.left) + myRob(root.left.right)
-    }
-    if (root.right) {
-      hasRoot += myRob(root.right.left) + myRob(root.right.right)
-    }
-    // 2. 左右子树
-    const noRoot = myRob(root.left) + myRob(root.right)
-    const res = Math.max(hasRoot, noRoot)
-    memo.set(root, res)
-    return res
+    const left = dp(root.left)
+    const right = dp(root.right)
+    // 抢，下家就不能抢了
+    const rob = left[1] + right[1] + root.val
+    // 不抢，下家可抢可不抢，取决于收益大小
+    const no_rob = Math.max(...left) + Math.max(...right)
+    return [rob, no_rob]
   }
-  return myRob(root)
+  
+  const res = dp(root)
+  return Math.max(...res)
 };
 ```
 
@@ -1299,7 +1297,7 @@ var maxSlidingWindow = function(nums, k) {
 };
 ```
 
-# 树
+# 树 ✅
 
 ## 手把手二叉树✅
 

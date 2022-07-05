@@ -2846,6 +2846,113 @@ var countNodes = function(root) {
 
 # 动态规划
 
+### [322. 零钱兑换](https://leetcode.cn/problems/coin-change/)
+
+```js
+/**
+ * dp[i] 表示凑成金额 i 所需要的最少金币数
+ * base_case: dp[0] = 0
+ * dp[i] = min(dp[i], dp[i - coin] + 1)
+ */
+var coinChange = function(coins, amount) {
+  let dp = new Array(amount + 1).fill(Infinity)
+  dp[0] = 0
+  for (let i = 1; i < amount + 1; i ++) {
+    for (let coin of coins) {
+      if (coin > i) {
+        continue
+      } else {
+        dp[i] = Math.min(dp[i], dp[i - coin] + 1)
+      }
+    }
+  }
+  return dp[amount] === Infinity ? -1 : dp[amount]
+};
+```
+
+## 一个方法团灭 LEETCODE 打家劫舍问题
+
+### [198. 打家劫舍](https://leetcode.cn/problems/house-robber/)
+
+```js
+/**
+ * base_case: dp[0] = nums[0], dp[1] =  max(nums[0], nums[1])
+ * dp[i]表示：前i个房屋所能拿到的最多的钱
+ * 两个选择：
+ * 1. 不偷： dp[i] = dp[i-1]
+ * 2. 偷: dp[i] = dp[i-2] + nums[i]
+ */
+ var rob = function(nums) {
+  if (nums.length === 0) {
+    return 0
+  }
+  let dp = [nums[0], Math.max(nums[0], nums[1])]
+  for (let i = 2; i < nums.length; i++) {
+    dp[i] = Math.max(dp[i-2] + nums[i], dp[i-1])
+  }
+  return dp[nums.length - 1]
+};
+```
+
+### [213. 打家劫舍 II](https://leetcode.cn/problems/house-robber-ii/)
+
+```js
+/**
+ * 偷: dp[i - 2] + nums[i]
+ * 不偷: dp[i-1]
+ * 因为是环形所以只能：只偷第一家 ｜ 只偷最后一家
+ */
+var rob = function(nums) {
+  if (nums.length === 1) {
+    return nums[0]
+  }
+  // 打家劫舍实现代码
+  const robRange = nums => {
+    if (nums.length === 0) {
+      return 0
+    }
+    let dp = [nums[0], Math.max(nums[0], nums[1])]
+    for (let i = 2; i < nums.length; i++) {
+      dp[i] = Math.max(dp[i-2] + nums[i], dp[i-1])
+    }
+    return dp[nums.length - 1]
+  }
+  // 不偷第一家
+  const tail = robRange(nums.slice(1))
+  // 不偷最后一家
+  const head = robRange(nums.slice(0, nums.length -1))
+  return Math.max(tail, head)
+};
+```
+
+### [337. 打家劫舍 III](https://leetcode.cn/problems/house-robber-iii/)
+
+```js
+var rob = function(root) {
+  /**
+   * 重新定义dp:
+   * 返回一个大小为 2 的数组 [rob, no_rob]
+   * rob 表示抢 root 的话，得到的最大钱数
+   * no_rob 表示不抢 root 的话，得到的最大钱数
+   */
+  const dp = root => {
+    if (root === null) {
+      return [0, 0]
+    }
+    const left = dp(root.left)
+    const right = dp(root.right)
+    // 抢，下家就不能抢了
+    const rob = left[1] + right[1] + root.val
+    // 不抢，下家可抢可不抢，取决于收益大小
+    const no_rob = Math.max(...left) + Math.max(...right)
+    return [rob, no_rob]
+  }
+  
+  const res = dp(root)
+  return Math.max(...res)
+};
+```
+
 ## 子序列问题
 
 ### [300. 最长递增子序列](https://leetcode.cn/problems/longest-increasing-subsequence/)
@@ -2945,4 +3052,155 @@ var longestPalindromeSubseq = function(s) {
   return dp[0][n - 1]
 };
 ```
+
+### [718. 最长重复子数组](https://leetcode.cn/problems/maximum-length-of-repeated-subarray/)
+
+```js
+/**
+ * base_case: 
+ * dp[i][j]表示以nums1[i]结尾的数组和以nums2[j - 1]结尾的数组的最长重复子数组长度
+ * nums1[i - 1] === nums2[i -1] 时 dp[i][j] = dp[i - 1][j - 1] + 1
+ */
+var findLength = function(nums1, nums2) {
+  let m = nums1.length
+  let n = nums2.length
+  let dp = new Array(m).fill(0).map(() => Array(n).fill(0))
+  let res = 0
+  for (let i = 0;i < m; i ++) {
+    for (let j = 0; j < n; j ++) {
+      if (nums1[i] === nums2[j]) {
+        dp[i][j] = dp[i - 1][j - 1] + 1
+      }
+      res = Math.max(res , dp[i][j])
+    }
+  }
+  return res
+};
+```
+
+## 背包问题
+
+```js
+const knapsack = (N, W, wt, val) => {
+    // base_case: 二维dp 为 0 
+    // dp[i][w] 表示： 前 i 个物品放入 w 容量的背包 最大价值为 dp[i][w]
+    // 对于第 i 个物品，可以选择装包或者不装包
+    // 1. 若第 i 物品 超过剩余背包容量，一定不能装包： dp[i][w] = dp[i - 1][w]
+    // 2. 第 i 物品 可以放入包内，此时可以选择装包 ｜ 不装包 dp[i][w] = max(dp[i - 1][w], dp[i - 1][w - wt[i - 1]] + val[i - 1])
+		// 2.1 装包： dp[i][w] = dp[i - 1][w - wt[i - 1]] + val[i - 1] // 未装i物品的价值 + i物品价值
+	const dp = new Array(N + 1).fill(0).map(() => Array(W + 1).fill(0))
+	for (let i = 1; i < N + 1; i ++) {
+		for (let w = 1; w < W + 1; w ++) {
+			if (wt[i - 1] > w) {
+				dp[i][w] = dp[i-1][w]
+			} else  {
+				dp[i][w] = Math.max(dp[i - 1][w], dp[i - 1][w - wt[i - 1]] + val[i - 1])
+			}
+		}
+	}
+	return dp[N][W]
+}
+knapsack(5, 10, [1,2,3,4,5], [5,4,3,2,1]) // 14
+```
+
+### [416. 分割等和子集](https://leetcode.cn/problems/partition-equal-subset-sum/)
+
+```js
+var canPartition = function(nums) {
+  // 即前i个是否能刚好装进 sum/2的包里
+  // dp[i][w]: 前i个物品是否能装进w重量的包里
+  // base_case: dp[0][...sum] = false , dp[...i][0] = true
+  // 对于第i物品，i从1开始
+  // nums[i-1] > w 不能装： dp[i][w] = dp[i-1][w]
+  // dp[i][w] = dp[i-1][w] || dp[i-1][w - nums[i-1]]
+  let sum  = nums.reduce((a, b) => a + b)
+  if (sum %2 !== 0) return false
+  const n = nums.length
+  sum = sum/2
+  let dp = new Array(n + 1)
+  for (let i = 0; i < n + 1; i ++) {
+    dp[i] = new Array(sum + 1).fill(false)
+    dp[i][0] = true
+  }
+  for (let i = 1; i < n + 1; i ++) {
+    for(let w = 0; w < sum + 1; w ++) {
+      if (nums[i-1] > w) {
+        dp[i][w] = dp[i-1][w]
+      } else {
+        dp[i][w] = dp[i-1][w] || dp[i-1][w - nums[i-1]]
+      }
+    }
+  }
+  return dp[n][sum]
+};
+```
+
+### [494. 目标和](https://leetcode.cn/problems/target-sum/)
+
+```js
+var findTargetSumWays = function(nums, target) {
+  // 即将nums 分为两个集合 [A, B]
+  // 其中 A + B = sum ; A - B = target
+  // 即找出 nums中是否存在集合 A 使得 A = (sum + target) / 2
+  const n = nums.length
+  let sum = nums.reduce((a, b) => a + b)
+  // 总和小于目标和 绝对值
+  if (Math.abs(target) > sum) return 0
+  // 总和为奇数
+  if ((sum + target) % 2 !== 0) return 0
+  let weight = (sum + target) / 2
+  const dp = new Array(n + 1)
+  for (let i = 0; i < n + 1; i ++) {
+    dp[i] = new Array(weight + 1).fill(0)
+    dp[i][0] = 1
+  }
+  for (let i = 1; i < n + 1; i ++) {
+    // 存在 0 ，所以 w 仍旧有 0 的情况存在
+    for (let w = 0; w < weight + 1; w ++) {
+      if (nums[i - 1] > w) {
+        // 装不下
+        dp[i][w] = dp[i - 1][w]
+      } else {
+        // 不装 + 装下小的
+        dp[i][w] = dp[i - 1][w] + dp[i - 1][w - nums[i - 1]]
+      }
+    }
+  }
+  return dp[n][weight]
+};
+```
+
+### [518. 零钱兑换 II](https://leetcode.cn/problems/coin-change-2/)
+
+```js
+/**
+ * dp[i][w] 表示前 i 个硬币组成金额 w 的种数
+ * base_case: dp[i][0] = 1, dp[0][w] = 0
+ * choices:
+ * 1. 金额 < 硬币面值: w < coin => dp[i][w] = dp[i - 1][w]
+ * 2. 金额 >= 硬币面值： dp[i][w] = dp[i - 1][w] + dp[i][w - coions[i - 1]] // i 不变是因为可以重复选
+ */
+var change = function(amount, coins) {
+  const n = coins.length
+  let dp = new Array(n + 1)
+  for (let i = 0; i < n + 1; i ++) {
+    dp[i] = new Array(amount + 1).fill(0)
+    dp[i][0] = 1
+  }
+  for (let i = 1; i < n + 1; i ++) {
+    for (let w = 1; w < amount + 1; w ++) {
+      if (w < coins[i - 1]) {
+        dp[i][w] = dp[i - 1][w]
+      } else {
+        dp[i][w] = dp[i - 1][w] + dp[i][w - coins[i - 1]] // i 不变是因为可以重复选
+      }
+    }
+  }
+  return dp[n][amount]
+};
+```
+
+
+
+## 贪心算法
 
