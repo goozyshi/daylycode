@@ -362,7 +362,7 @@ var lengthOfLongestSubstring = function(s) {
 ```
 
 
-# 动态规划
+# 动态规划 ✅
 
 
 ## 子序列问题 ✅
@@ -617,7 +617,7 @@ var maxA = function(n) {
 };
 ```
 
-## 背包系列问题
+## 背包系列问题 ✅
 
 ### 经典01背包问题  
 
@@ -2358,6 +2358,7 @@ var removeDuplicates = function(nums) {
 ```js
 /**
  * 思路：判断s[n - 1]前面的下标 i 加上s[i]能否到达 n - 1
+ * i 和 end 标记了可以选择的跳跃步数，farthest 标记了所有选择 [i..end] 中能够跳到的最远距离，jumps 记录了跳跃次数。
  */
 var canJump = function(nums) {
   const n = nums.length

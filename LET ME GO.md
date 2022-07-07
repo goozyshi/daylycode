@@ -1102,62 +1102,6 @@ var myPow = function(x, n) {
 };
 ```
 
-### [875.爱吃香蕉的珂珂](https://leetcode-cn.com/problems/koko-eating-bananas/)
-
-```js
-var minEatingSpeed = function(piles, h) {
-  let left = 1
-  let right = Math.max(...piles)
-  const canFinished = (piles, H, speed) => {
-    let time = 0
-    for (let item of piles) {
-      time += Math.ceil(item / speed)
-    }
-    return time <= H
-  }
-  while (left <= right) {
-    let mid = Math.floor((left + right) / 2)
-    if (canFinished(piles, h, mid)) {
-      right = mid - 1
-    } else {
-      left = mid + 1
-    }
-  }
-  return left
-};
-```
-
-### [1011.在 D 天内送达包裹的能力](https://leetcode-cn.com/problems/capacity-to-ship-packages-within-d-days)
-
-```js
-var shipWithinDays = function(weights, days) {
-  let left = Math.max(...weights) // 最小载重必须能载一个包裹，故取最大重量包裹
-  let right = weights.reduce((a, b) => a + b) // 最大载重就是一天内运完所有包裹
-  const canFinish = (weights, DAY, cap) => {
-    let current = 0
-    let day = 1
-    for (let w of weights) {
-      current += w
-      // 超过每天的限制, 这个货就放在下一天运
-      if (current > cap) {
-        current = w
-        day ++
-      }
-    }
-    return day <= DAY
-  }
-  while (left <= right) {
-    let mid = Math.floor((left + right) / 2)
-    if (canFinish(weights, days, mid)) {
-      right = mid - 1
-    } else {
-      left = mid + 1
-    }
-  }
-  return left
-};
-```
-
 ## twoSum 问题
 ### [1.两数之和](https://leetcode-cn.com/problems/two-sum/)
 
@@ -2870,6 +2814,8 @@ var coinChange = function(coins, amount) {
 };
 ```
 
+
+
 ## 一个方法团灭 LEETCODE 打家劫舍问题
 
 ### [198. 打家劫舍](https://leetcode.cn/problems/house-robber/)
@@ -2952,6 +2898,84 @@ var rob = function(root) {
   return Math.max(...res)
 };
 ```
+
+## 一文秒杀所有岛屿题目
+
+### [200. 岛屿数量](https://leetcode.cn/problems/number-of-islands/)
+
+```js
+var numIslands = function(grid) {
+  const m = grid.length
+  const n = grid[0].length
+  let res = 0
+  for (let i = 0; i < m; i ++) {
+    for (let j = 0; j < n; j ++) {
+      if (grid[i][j] === '1') {
+        res ++
+        // 淹没当前陆地
+        dfs(grid, i, j)
+      }
+    }
+  }
+  return res
+};
+// 从 (i, j) 开始，将与之相邻的陆地都变成海水
+const dfs = (grid, i, j) => {
+  const m = grid.length
+  const n = grid[0].length
+  if (i < 0 || j < 0 || i > m - 1 || j > n - 1) {
+    // 超出索引边界
+    return
+  }
+  if (grid[i][j] === '0') {
+    // 已经是海水了
+    return
+  }
+  // 将当前位置淹没变成海水
+  grid[i][j] = '0'
+  // 淹没上下左右的陆地
+  dfs(grid, i - 1, j)
+  dfs(grid, i + 1, j)
+  dfs(grid, i, j - 1)
+  dfs(grid, i, j + 1)
+}
+```
+
+### [695. 岛屿的最大面积](https://leetcode.cn/problems/max-area-of-island/)
+
+```js
+var maxAreaOfIsland = function(grid) {
+  // 思路就是淹没陆地的dfs返回淹没陆地数目
+  // res = max(res, dfs(grid, i, j))
+  const m = grid.length
+  const n = grid[0].length
+  let res = 0
+  for (let i = 0; i < m; i ++) {
+    for (let j = 0; j < n; j ++) {
+      if (grid[i][j] === 1) {
+        // 发现陆地
+        res = Math.max(res, dfs(grid, i , j))
+      }
+    }
+  }
+  return res
+};
+
+const dfs = (grid, i, j) => {
+  const m = grid.length
+  const n = grid[0].length
+  if (i < 0 || j < 0 || i > m - 1 || j > n - 1) {
+    return 0
+  }
+  if (grid[i][j] === 0) {
+    return 0
+  }
+  grid[i][j] = 0
+  return 1 + dfs(grid, i - 1, j) + dfs(grid, i + 1, j) + dfs(grid, i, j - 1) + dfs(grid, i, j + 1)
+}
+```
+
+
 
 ## 子序列问题
 
@@ -3200,7 +3224,123 @@ var change = function(amount, coins) {
 };
 ```
 
-
-
 ## 贪心算法
+
+> i 和 end 标记了可以选择的跳跃步数，farthest 标记了所有选择 [i..end] 中能够跳到的最远距离，jumps 记录了跳跃次数。
+
+### [55. 跳跃游戏](https://leetcode.cn/problems/jump-game/)
+
+```js
+var canJump = function(nums) {
+  const n = nums.length
+  let maxJump = 0
+  // i 只需要遍历到倒数第二个就行了，题目是到达最后一个
+  for (let i = 0; i < n - 1; i++) {
+    maxJump = Math.max(maxJump, i + nums[i])
+    if (maxJump <= i) {
+      // 跳完之后还在原地
+      return false
+    }
+  }
+  return maxJump >= n - 1
+```
+
+### [45. 跳跃游戏 II](https://leetcode.cn/problems/jump-game-ii/)
+
+```js
+//  跳一次的最远跳跃距离 = 当前位置 + 可跳跃的最大数
+var jump = function(nums) {
+  const n = nums.length
+  let end = 0
+  let step = 0
+  let farthest = 0
+  for (let i = 0; i < n - 1; i ++) {
+    farthest = Math.max(farthest, i + nums[i])
+    if (end === i) {
+      step ++
+      end = farthest
+    }
+  }
+  return step
+};
+```
+
+### [134. 加油站](https://leetcode.cn/problems/gas-station/)
+
+```js
+var canCompleteCircuit = function(gas, cost) {
+  let sum = 0
+  const n = gas.length
+  for (let i = 0; i < n; i ++) {
+    sum += gas[i] - cost[i]
+  }
+  if (sum < 0) {
+    // 油耗量为负数，无论从哪个站开始都到达不了
+    return -1
+  }
+  // 记录油箱中的油量
+  let tank = 0
+  // 记录起点
+  let startIndex = 0
+  for (let i = 0; i < n; i ++) {
+    tank += gas[i] - cost[i]
+    if (tank < 0) {
+      // 无法从 start 到达 i + 1
+      // 所以站点 i + 1 应该是起点
+      tank = 0
+      startIndex = i + 1
+    }
+  }
+  return startIndex === n ? 0 : startIndex
+};
+```
+
+## 其他
+
+### [10. 正则表达式匹配](https://leetcode.cn/problems/regular-expression-matching/)
+
+```js
+var isMatch = function(s, p) {
+  const m = s.length
+  const n = p.length
+  const dp = (s, i, p, j) => {
+    // 边界处理
+    if (j === n) {
+      // j 到底， 看 i 是否也走到底, eg. s = 'aaaa', p = 'a*'
+      return i === m
+    }
+    if (i === m) {
+      // 匹配空串， 一定是字符和 * 成对出现，eg. s = '', p = 'a*c*b*'
+      if ((n - j) % 2 === 1) {
+        return false
+      }
+      // 后一位 是 * 可以进行匹配
+      while (j + 1 < n) {
+        if (p[j + 1] !== '*') {
+          return false
+        }
+        j = j + 2
+      }
+      return true
+    }
+    // 当前位匹配
+    if (s[i] === p[j] || p[j] === '.') {
+      // 后一位是 * 匹配 1 次 或者 多次
+      if (j < n && p[j + 1] === '*') {
+        return dp(s, i, p, j + 2) || dp(s, i + 1, p, j) // j + 2 跳过 *
+      }
+      // 当前位匹配 1 次
+      return dp(s, i + 1, p, j + 1)
+    } else {
+      // 后一位是 * 仍可以进行匹配 1 次
+      if (j < n && p[j + 1] === '*') {
+        return dp(s, i, p, j + 2) // j + 2 跳过 *
+      }
+      return false
+    }
+    
+  }
+  return dp(s, 0, p, 0)
+};
+```
 
